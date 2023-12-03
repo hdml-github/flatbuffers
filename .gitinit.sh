@@ -4,7 +4,7 @@
 # @copyright Artem Lytvynov
 # @license Apache-2.0
 
-if [ ! -f ./.ssh/hdml.github ]; then
+if [ ! -f ./.ssh/gh ]; then
   echo "Warning: SSH keys not found. Running keys generator."
   echo "Please, use [./.ssh/gh] as a keys file."
   rm -rf ./.ssh
