@@ -1,0 +1,35 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./enum.TableType.fbs";
+include "./enum.JoinType.fbs";
+include "./query.Field.fbs";
+include "./query.FilterClause.fbs";
+
+namespace query;
+
+/// Query data-model structure.
+table Model {
+  name: string;
+  tables: [Table];
+  joins: [Join];
+}
+
+/// Query data-table structure.
+table Table {
+  name: string;
+  type: enum.TableType;
+  source: string;
+  fields: [query.Field];
+}
+
+/// Query data-tables join structure.
+table Join {
+  type: enum.JoinType;
+  left: string;
+  right: string;
+  clause: query.FilterClause;
+}

@@ -1,0 +1,14 @@
+coverage
+docs
+cjs
+dts
+esm
+tst
+tsconfig/*.tsbuildinfo
+node_modules
+npm-debug.log
+.vscode
+.token
+.ssh
+lerna-debug.log
+npm-debug.log
