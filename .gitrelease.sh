@@ -4,7 +4,7 @@
 # @copyright Artem Lytvynov
 # @license Apache-2.0
 
-. ./.ssh/token
+. .token
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 if [[ "$BRANCH" != "master" ]]; then
