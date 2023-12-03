@@ -9,7 +9,7 @@ include "./enum.DataType.fbs";
 include "./enum.DecBitWidth.fbs";
 include "./enum.DateUnit.fbs";
 include "./enum.TimeUnit.fbs";
-include "./enum.TimeZone.fbs";
+// include "./enum.TimeZone.fbs";
 
 namespace query;
 
@@ -42,7 +42,7 @@ struct TimeOpts {
 struct TimestampOpts {
   nullable: bool;
   unit: enum.TimeUnit;
-  timezone: enum.TimeZone;
+  // timezone: enum.TimeZone;
 }
 
 /// Query data field type options union.

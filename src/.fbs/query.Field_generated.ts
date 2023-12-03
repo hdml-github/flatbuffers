@@ -7,7 +7,6 @@ import {DataType as DataType} from './enum.DataType_generated.js';
 import {DateUnit as DateUnit} from './enum.DateUnit_generated.js';
 import {DecBitWidth as DecBitWidth} from './enum.DecBitWidth_generated.js';
 import {TimeUnit as TimeUnit} from './enum.TimeUnit_generated.js';
-import {TimeZone as TimeZone} from './enum.TimeZone_generated.js';
 
 /**
  * Query data field type options union.
@@ -211,17 +210,12 @@ unit():TimeUnit {
   return this.bb!.readInt8(this.bb_pos + 1);
 }
 
-timezone():TimeZone {
-  return this.bb!.readInt16(this.bb_pos + 2);
-}
-
 static sizeOf():number {
-  return 4;
+  return 2;
 }
 
-static createTimestampOpts(builder:flatbuffers.Builder, nullable: boolean, unit: TimeUnit, timezone: TimeZone):flatbuffers.Offset {
-  builder.prep(2, 4);
-  builder.writeInt16(timezone);
+static createTimestampOpts(builder:flatbuffers.Builder, nullable: boolean, unit: TimeUnit):flatbuffers.Offset {
+  builder.prep(1, 2);
   builder.writeInt8(unit);
   builder.writeInt8(Number(Boolean(nullable)));
   return builder.offset();

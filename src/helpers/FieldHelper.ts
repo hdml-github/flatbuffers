@@ -19,7 +19,7 @@ import {
   AggType,
   DateUnit,
   TimeUnit,
-  TimeZone,
+  // TimeZone,
   DataType,
   DecBitWidth,
 } from "../enums";
@@ -63,7 +63,7 @@ export type TimeOptsDef = {
 export type TimestampOptsDef = {
   nullable: boolean;
   unit: TimeUnit;
-  timezone: TimeZone;
+  // timezone: TimeZone;
 };
 
 /**
@@ -247,7 +247,7 @@ export class FieldHelper {
       this._builder,
       data.nullable,
       data.unit,
-      data.timezone,
+      // data.timezone,
     );
   }
 
@@ -342,7 +342,7 @@ export class FieldHelper {
           options: {
             nullable: (<TimestampOpts>options).nullable(),
             unit: (<TimestampOpts>options).unit(),
-            timezone: (<TimestampOpts>options).timezone(),
+            // timezone: (<TimestampOpts>options).timezone(),
           },
         };
         break;

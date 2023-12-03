@@ -4,6 +4,7 @@ cjs
 dts
 esm
 tst
+src/.fbs
 tsconfig/*.tsbuildinfo
 node_modules
 npm-debug.log
