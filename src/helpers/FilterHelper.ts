@@ -164,37 +164,68 @@ export class FilterHelper {
   public parseFilterOpts(
     filter: Filter,
   ): TExprOpts | TKeysOpts | TNamedOpts {
-    let opts: unknown;
-    let data: TExprOpts | TKeysOpts | TNamedOpts;
     switch (filter.optionsType()) {
       default:
         throw new Error("Invalid filter options type.");
       case FilterOpts.NONE:
         throw new Error("Invalid filter options type.");
       case FilterOpts.ExprOpts:
-        opts = filter.options(new ExprOpts());
-        data = {
-          clause: <string>(<ExprOpts>opts).clause(),
+        let exprOpts: null | ExprOpts = null;
+        const getExprOpts = () => {
+          if (!exprOpts) {
+            exprOpts = <ExprOpts>filter.options(new ExprOpts());
+          }
+          return exprOpts;
         };
-        return data;
+        return <TExprOpts>Object.defineProperties(
+          {},
+          {
+            clause: { get: () => getExprOpts().clause() },
+          },
+        );
       case FilterOpts.KeysOpts:
-        opts = filter.options(new KeysOpts());
-        data = {
-          left: <string>(<KeysOpts>opts).left(),
-          right: <string>(<KeysOpts>opts).right(),
+        let keysOpts: null | KeysOpts = null;
+        const getKeysOpts = () => {
+          if (!keysOpts) {
+            keysOpts = <KeysOpts>filter.options(new KeysOpts());
+          }
+          return keysOpts;
         };
-        return data;
+        return <TKeysOpts>Object.defineProperties(
+          {},
+          {
+            left: { get: () => getKeysOpts().left() },
+            right: { get: () => getKeysOpts().right() },
+          },
+        );
       case FilterOpts.NamedOpts:
-        opts = filter.options(new NamedOpts());
-        data = {
-          name: (<NamedOpts>opts).name(),
-          field: <string>(<NamedOpts>opts).field(),
-          values: <string[]>[],
+        let namedOpts: null | NamedOpts = null;
+        const getNamedOpts = () => {
+          if (!namedOpts) {
+            namedOpts = <NamedOpts>filter.options(new NamedOpts());
+          }
+          return namedOpts;
         };
-        for (let i = 0; i < (<NamedOpts>opts).valuesLength(); i++) {
-          data.values.push((<NamedOpts>opts).values(i));
-        }
-        return data;
+        return <TNamedOpts>Object.defineProperties(
+          {},
+          {
+            name: { get: () => getNamedOpts().name() },
+            field: { get: () => getNamedOpts().field() },
+            values: {
+              get: () => {
+                const v: string[] = [];
+                for (
+                  let i = 0;
+                  i < getNamedOpts().valuesLength();
+                  i++
+                ) {
+                  v.push(getNamedOpts().values(i));
+                }
+                return v;
+              },
+            },
+          },
+        );
     }
   }
 }
