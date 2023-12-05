@@ -16,6 +16,7 @@ import { TKeysOpts } from "./TKeysOpts";
 import { TNamedOpts } from "./TNamedOpts";
 import { TFilter } from "./TFilter";
 import { TFilterClause } from "./TFilterClause";
+import { TTable } from "./TTable";
 
 export {
   // fields
@@ -32,4 +33,6 @@ export {
   TNamedOpts,
   TFilter,
   TFilterClause,
+  // table
+  TTable,
 };

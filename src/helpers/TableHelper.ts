@@ -6,18 +6,8 @@
 
 import { Builder } from "flatbuffers";
 import { Table, Model } from "../.fbs/query.Model_generated";
-import { TableType } from "../enums";
-import { FieldHelper, FieldDef } from "./FieldHelper";
-
-/**
- * An object for defining table.
- */
-export type TableDef = {
-  name: string;
-  type: TableType;
-  source: string;
-  fields: FieldDef[];
-};
+import { FieldHelper } from "./FieldHelper";
+import { TTable } from "../types";
 
 /**
  * Table helper class.
@@ -29,11 +19,11 @@ export class TableHelper {
     this._field = new FieldHelper(this._builder);
   }
 
-  public bufferizeTables(data: TableDef[]): number[] {
+  public bufferizeTables(data: TTable[]): number[] {
     return data.map((t) => this.bufferizeTable(t));
   }
 
-  public bufferizeTable(data: TableDef): number {
+  public bufferizeTable(data: TTable): number {
     const name = this._builder.createString(data.name);
     const source = this._builder.createString(data.source);
     const offsets = this._field.bufferizeFields(data.fields);
@@ -46,20 +36,28 @@ export class TableHelper {
     return Table.endTable(this._builder);
   }
 
-  public parseTables(model: Model): TableDef[] {
-    const tables: TableDef[] = [];
+  public parseTables(model: Model): TTable[] {
+    const tables: TTable[] = [];
     for (let i = 0; i < model.tablesLength(); i++) {
       const table = model.tables(i, new Table());
       if (table) {
-        tables.push({
-          name: table.name() || "",
-          type: table.type(),
-          source: table.source() || "",
-          fields: this._field.parseFields(
-            table.fields.bind(table),
-            table.fieldsLength(),
+        tables.push(
+          <TTable>Object.defineProperties(
+            {},
+            {
+              name: { get: () => table.name() || "" },
+              type: { get: () => table.type() },
+              source: { get: () => table.source() || "" },
+              fields: {
+                get: () =>
+                  this._field.parseFields(
+                    table.fields.bind(table),
+                    table.fieldsLength(),
+                  ),
+              },
+            },
           ),
-        });
+        );
       }
     }
     return tables;
