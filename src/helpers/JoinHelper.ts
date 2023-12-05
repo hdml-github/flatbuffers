@@ -7,18 +7,8 @@
 import { Builder } from "flatbuffers";
 import { Join, Model } from "../.fbs/query.Model_generated";
 import { FilterClause } from "../.fbs/query.FilterClause_generated";
-import { JoinType } from "../enums";
-import { FilterHelper, FilterClauseDef } from "./FilterHelper";
-
-/**
- * An object for defining join.
- */
-export type JoinDef = {
-  type: JoinType;
-  left: string;
-  right: string;
-  clause: FilterClauseDef;
-};
+import { FilterHelper } from "./FilterHelper";
+import { TJoin } from "../types";
 
 /**
  * Join helper class.
@@ -30,11 +20,11 @@ export class JoinHelper {
     this._filter = new FilterHelper(this._builder);
   }
 
-  public bufferizeJoins(data: JoinDef[]): number[] {
+  public bufferizeJoins(data: TJoin[]): number[] {
     return data.map((j) => this.bufferizeJoin(j));
   }
 
-  public bufferizeJoin(data: JoinDef): number {
+  public bufferizeJoin(data: TJoin): number {
     const left = this._builder.createString(data.left);
     const right = this._builder.createString(data.right);
     const clause = this._filter.bufferizeFilterClause(data.clause);
@@ -46,23 +36,45 @@ export class JoinHelper {
     return Join.endJoin(this._builder);
   }
 
-  public parseJoins(model: Model): JoinDef[] {
-    const joins: JoinDef[] = [];
+  public parseJoins(model: Model): TJoin[] {
+    const joins: TJoin[] = [];
     for (let i = 0; i < model.joinsLength(); i++) {
-      const join = model.joins(i, new Join());
-      if (!join) {
-        throw new Error("Invalid join.");
-      }
-      const clause = join.clause(new FilterClause());
-      if (!clause) {
-        throw new Error("Invalid filter clause.");
-      }
-      joins.push({
-        type: join.type(),
-        left: join.left() || "",
-        right: join.right() || "",
-        clause: this._filter.parseFilterClause(clause),
-      });
+      let join: null | Join = null;
+      const getJoin = () => {
+        if (!join) {
+          join = model.joins(i, new Join());
+        }
+        if (!join) {
+          throw new Error("Invalid join.");
+        }
+        return join;
+      };
+
+      let clause: null | FilterClause = null;
+      const getClause = (join: Join) => {
+        if (!clause) {
+          clause = join.clause(new FilterClause());
+        }
+        if (!clause) {
+          throw new Error("Invalid filter clause.");
+        }
+        return clause;
+      };
+
+      joins.push(
+        <TJoin>Object.defineProperties(
+          {},
+          {
+            type: { get: () => getJoin().type() },
+            left: { get: () => getJoin().left() },
+            right: { get: () => getJoin().right() },
+            clause: {
+              get: () =>
+                this._filter.parseFilterClause(getClause(getJoin())),
+            },
+          },
+        ),
+      );
     }
     return joins;
   }

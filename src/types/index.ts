@@ -17,6 +17,7 @@ import { TNamedOpts } from "./TNamedOpts";
 import { TFilter } from "./TFilter";
 import { TFilterClause } from "./TFilterClause";
 import { TTable } from "./TTable";
+import { TJoin } from "./TJoin";
 
 export {
   // fields
@@ -35,4 +36,6 @@ export {
   TFilterClause,
   // table
   TTable,
+  // join
+  TJoin,
 };
