@@ -4,6 +4,8 @@
  * @license Apache-2.0
  */
 
+/* eslint-disable no-case-declarations */
+
 import { Builder } from "flatbuffers";
 import {
   FilterClause,
@@ -13,57 +15,14 @@ import {
   KeysOpts,
   NamedOpts,
 } from "../.fbs/query.FilterClause_generated";
-import { FilterName, FilterOperator, FilterType } from "../enums";
-
-/**
- * An object for defining expression filter options.
- */
-export type ExprOptsDef = {
-  clause: string;
-};
-
-/**
- * An object for defining keys filter options.
- */
-export type KeysOptsDef = {
-  left: string;
-  right: string;
-};
-
-/**
- * An object for defining named filter options.
- */
-export type NamedOptsDef = {
-  name: FilterName;
-  field: string;
-  values: string[];
-};
-
-/**
- * An object for defining filter.
- */
-export type FilterDef =
-  | {
-      type: FilterType.Expr;
-      options: ExprOptsDef;
-    }
-  | {
-      type: FilterType.Keys;
-      options: KeysOptsDef;
-    }
-  | {
-      type: FilterType.Named;
-      options: NamedOptsDef;
-    };
-
-/**
- * An object for defining filters clause.
- */
-export type FilterClauseDef = {
-  type: FilterOperator;
-  filters: FilterDef[];
-  children: FilterClauseDef[];
-};
+import { FilterType } from "../enums";
+import {
+  TExprOpts,
+  TKeysOpts,
+  TNamedOpts,
+  TFilter,
+  TFilterClause,
+} from "../types";
 
 /**
  * Filter helper class.
@@ -71,11 +30,11 @@ export type FilterClauseDef = {
 export class FilterHelper {
   public constructor(private _builder: Builder) {}
 
-  public bufferizeFiltersClauses(data: FilterClauseDef[]): number[] {
+  public bufferizeFiltersClauses(data: TFilterClause[]): number[] {
     return data.map((c) => this.bufferizeFilterClause(c));
   }
 
-  public bufferizeFilterClause(data: FilterClauseDef): number {
+  public bufferizeFilterClause(data: TFilterClause): number {
     const filters_ = this.bufferizeFilters(data.filters);
     const filters = FilterClause.createFiltersVector(
       this._builder,
@@ -93,11 +52,11 @@ export class FilterHelper {
     return FilterClause.endFilterClause(this._builder);
   }
 
-  public bufferizeFilters(data: FilterDef[]): number[] {
+  public bufferizeFilters(data: TFilter[]): number[] {
     return data.map((f) => this.bufferizeFilter(f));
   }
 
-  public bufferizeFilter(data: FilterDef): number {
+  public bufferizeFilter(data: TFilter): number {
     let type = FilterOpts.NONE;
     let opts = 0;
     switch (data.type) {
@@ -123,14 +82,14 @@ export class FilterHelper {
     return Filter.endFilter(this._builder);
   }
 
-  public bufferizeExprOpts(data: ExprOptsDef): number {
+  public bufferizeExprOpts(data: TExprOpts): number {
     const clause = this._builder.createString(data.clause);
     ExprOpts.startExprOpts(this._builder);
     ExprOpts.addClause(this._builder, clause);
     return ExprOpts.endExprOpts(this._builder);
   }
 
-  public bufferizeKeysOpts(data: KeysOptsDef): number {
+  public bufferizeKeysOpts(data: TKeysOpts): number {
     const left = this._builder.createString(data.left);
     const right = this._builder.createString(data.right);
     KeysOpts.startKeysOpts(this._builder);
@@ -139,7 +98,7 @@ export class FilterHelper {
     return KeysOpts.endKeysOpts(this._builder);
   }
 
-  public bufferizeNamedOpts(data: NamedOptsDef): number {
+  public bufferizeNamedOpts(data: TNamedOpts): number {
     const field = this._builder.createString(data.field);
     const values_ = data.values.map((v) =>
       this._builder.createString(v),
@@ -155,41 +114,58 @@ export class FilterHelper {
     return NamedOpts.endNamedOpts(this._builder);
   }
 
-  public parseFilterClause(clause: FilterClause): FilterClauseDef {
-    const type = clause.type();
-    const filters: FilterDef[] = [];
-    const children: FilterClauseDef[] = [];
-    if (clause.filtersLength() > 0) {
-      for (let i = 0; i < clause.filtersLength(); i++) {
-        const filter = clause.filters(i, new Filter());
-        if (filter) {
-          filters.push(<FilterDef>{
-            type: filter.type(),
-            options: this.parseFilterOpts(filter),
-          });
-        }
-      }
-    }
-    if (clause.childrenLength() > 0) {
-      for (let i = 0; i < clause.childrenLength(); i++) {
-        const child = clause.children(i, new FilterClause());
-        if (child) {
-          children.push(this.parseFilterClause(child));
-        }
-      }
-    }
-    return {
-      type,
-      filters,
-      children,
-    };
+  public parseFilterClause(clause: FilterClause): TFilterClause {
+    return <TFilterClause>Object.defineProperties(
+      {},
+      {
+        type: { get: () => clause.type() },
+        filters: {
+          get: () => {
+            const filters: TFilter[] = [];
+            if (clause.filtersLength() > 0) {
+              for (let i = 0; i < clause.filtersLength(); i++) {
+                const filter = clause.filters(i, new Filter());
+                if (filter) {
+                  filters.push(
+                    <TFilter>Object.defineProperties(
+                      {},
+                      {
+                        type: { get: () => filter.type() },
+                        options: {
+                          get: () => this.parseFilterOpts(filter),
+                        },
+                      },
+                    ),
+                  );
+                }
+              }
+            }
+            return filters;
+          },
+        },
+        children: {
+          get: () => {
+            const children: TFilterClause[] = [];
+            if (clause.childrenLength() > 0) {
+              for (let i = 0; i < clause.childrenLength(); i++) {
+                const child = clause.children(i, new FilterClause());
+                if (child) {
+                  children.push(this.parseFilterClause(child));
+                }
+              }
+            }
+            return children;
+          },
+        },
+      },
+    );
   }
 
   public parseFilterOpts(
     filter: Filter,
-  ): ExprOptsDef | KeysOptsDef | NamedOptsDef {
+  ): TExprOpts | TKeysOpts | TNamedOpts {
     let opts: unknown;
-    let data: ExprOptsDef | KeysOptsDef | NamedOptsDef;
+    let data: TExprOpts | TKeysOpts | TNamedOpts;
     switch (filter.optionsType()) {
       default:
         throw new Error("Invalid filter options type.");

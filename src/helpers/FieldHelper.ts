@@ -4,6 +4,8 @@
  * @license Apache-2.0
  */
 
+/* eslint-disable no-case-declarations */
+
 import { Builder } from "flatbuffers";
 import {
   Field,
@@ -15,107 +17,16 @@ import {
   DecimalOpts,
   CommonOpts,
 } from "../.fbs/query.Field_generated";
+import { DataType } from "../enums";
 import {
-  AggType,
-  DateUnit,
-  TimeUnit,
-  // TimeZone,
-  DataType,
-  DecBitWidth,
-} from "../enums";
-
-/**
- * An object for defining field common type options.
- */
-export type CommonOptsDef = {
-  nullable: boolean;
-};
-
-/**
- * An object for defining field decimal type options.
- */
-export type DecimalOptsDef = {
-  nullable: boolean;
-  scale: number;
-  precision: number;
-  bitWidth: DecBitWidth;
-};
-
-/**
- * An object for defining field date type options.
- */
-export type DateOptsDef = {
-  nullable: boolean;
-  unit: DateUnit;
-};
-
-/**
- * An object for defining field time type options.
- */
-export type TimeOptsDef = {
-  nullable: boolean;
-  unit: TimeUnit;
-};
-
-/**
- * An object for defining field timestamp type options.
- */
-export type TimestampOptsDef = {
-  nullable: boolean;
-  unit: TimeUnit;
-  // timezone: TimeZone;
-};
-
-/**
- * An object for defining field type.
- */
-export type TypeDef =
-  | {
-      type:
-        | DataType.Int8
-        | DataType.Int16
-        | DataType.Int32
-        | DataType.Int64
-        | DataType.Uint8
-        | DataType.Uint16
-        | DataType.Uint32
-        | DataType.Uint64
-        | DataType.Float16
-        | DataType.Float32
-        | DataType.Float64
-        | DataType.Binary
-        | DataType.Utf8;
-      options: CommonOptsDef;
-    }
-  | {
-      type: DataType.Decimal;
-      options: DecimalOptsDef;
-    }
-  | {
-      type: DataType.Date;
-      options: DateOptsDef;
-    }
-  | {
-      type: DataType.Time;
-      options: TimeOptsDef;
-    }
-  | {
-      type: DataType.Timestamp;
-      options: TimestampOptsDef;
-    };
-
-/**
- * An object for defining field.
- */
-export type FieldDef = {
-  description?: string;
-  origin?: string;
-  clause?: string;
-  name: string;
-  type?: TypeDef;
-  agg?: AggType;
-  asc?: boolean;
-};
+  TCommonOpts,
+  TDecimalOpts,
+  TDateOpts,
+  TTimeOpts,
+  TTimestampOpts,
+  TType,
+  TField,
+} from "../types";
 
 /**
  * Field helper class.
@@ -123,11 +34,11 @@ export type FieldDef = {
 export class FieldHelper {
   public constructor(private _builder: Builder) {}
 
-  public bufferizeFields(data: FieldDef[]): number[] {
+  public bufferizeFields(data: TField[]): number[] {
     return data.map((f) => this.bufferizeField(f));
   }
 
-  public bufferizeField(data: FieldDef): number {
+  public bufferizeField(data: TField): number {
     const name = this._builder.createString(data.name);
     const origin = data.origin
       ? this._builder.createString(data.origin)
@@ -164,7 +75,7 @@ export class FieldHelper {
     return Field.endField(this._builder);
   }
 
-  public bufferizeType(data: TypeDef): number {
+  public bufferizeType(data: TType): number {
     let opts: number;
     let type: TypeOpts = TypeOpts.NONE;
     switch (data.type) {
@@ -212,11 +123,11 @@ export class FieldHelper {
     return Type.endType(this._builder);
   }
 
-  public bufferizeCommonOpts(data: CommonOptsDef): number {
+  public bufferizeCommonOpts(data: TCommonOpts): number {
     return CommonOpts.createCommonOpts(this._builder, data.nullable);
   }
 
-  public bufferizeDecimalOpts(data: DecimalOptsDef): number {
+  public bufferizeDecimalOpts(data: TDecimalOpts): number {
     return DecimalOpts.createDecimalOpts(
       this._builder,
       data.nullable,
@@ -226,7 +137,7 @@ export class FieldHelper {
     );
   }
 
-  public bufferizeDateOpts(data: DateOptsDef): number {
+  public bufferizeDateOpts(data: TDateOpts): number {
     return DateOpts.createDateOpts(
       this._builder,
       data.nullable,
@@ -234,7 +145,7 @@ export class FieldHelper {
     );
   }
 
-  public bufferizeTimeOpts(data: TimeOptsDef): number {
+  public bufferizeTimeOpts(data: TTimeOpts): number {
     return TimeOpts.createTimeOpts(
       this._builder,
       data.nullable,
@@ -242,109 +153,200 @@ export class FieldHelper {
     );
   }
 
-  public bufferizeTimestampOpts(data: TimestampOptsDef): number {
+  public bufferizeTimestampOpts(data: TTimestampOpts): number {
     return TimestampOpts.createTimestampOpts(
       this._builder,
       data.nullable,
       data.unit,
-      // data.timezone,
     );
   }
 
   public parseFields(
     fieldGetter: (index: number, obj?: Field) => Field | null,
     length: number,
-  ): FieldDef[] {
-    const fields: FieldDef[] = [];
+  ): TField[] {
+    const fields: TField[] = [];
     for (let j = 0; j < length; j++) {
       const field = fieldGetter(j, new Field());
       if (field) {
-        fields.push({
-          name: field.name() || "",
-          clause: field.clause() || undefined,
-          origin: field.origin() || undefined,
-          description: field.description() || undefined,
-          agg: field.agg(),
-          asc: field.asc(),
-          type: this.parseType(field.type(new Type())),
-        });
+        fields.push(
+          <TField>Object.defineProperties(
+            {},
+            {
+              name: { get: () => field.name() || "" },
+              type: {
+                get: () => this.parseType(field.type(new Type())),
+              },
+              origin: { get: () => field.origin() || undefined },
+              clause: { get: () => field.clause() || undefined },
+              agg: { get: () => field.agg() },
+              asc: { get: () => field.asc() },
+              description: {
+                get: () => field.description() || undefined,
+              },
+            },
+          ),
+        );
       }
     }
     return fields;
   }
 
-  public parseType(type: null | Type): TypeDef | undefined {
+  public parseType(type: null | Type): TType | undefined {
     if (!type) {
       return;
     }
-    let data: TypeDef | undefined = undefined;
-    let options: unknown;
+    let data: TType | undefined = undefined;
     switch (type.optionsType()) {
       case TypeOpts.CommonOpts:
-        options = type.options(new CommonOpts());
-        data = {
-          type: <
-            | DataType.Int8
-            | DataType.Int16
-            | DataType.Int32
-            | DataType.Int64
-            | DataType.Uint8
-            | DataType.Uint16
-            | DataType.Uint32
-            | DataType.Uint64
-            | DataType.Float16
-            | DataType.Float32
-            | DataType.Float64
-            | DataType.Binary
-            | DataType.Utf8
-          >type.type(),
-          options: {
-            nullable: (<CommonOpts>options).nullable(),
-          },
+        let comOpts: null | CommonOpts = null;
+        const getComOpts = () => {
+          if (!comOpts) {
+            comOpts = <CommonOpts>type.options(new CommonOpts());
+          }
+          return comOpts;
         };
+        data = <TType>Object.defineProperties(
+          {},
+          {
+            type: {
+              get: () =>
+                <
+                  | DataType.Int8
+                  | DataType.Int16
+                  | DataType.Int32
+                  | DataType.Int64
+                  | DataType.Uint8
+                  | DataType.Uint16
+                  | DataType.Uint32
+                  | DataType.Uint64
+                  | DataType.Float16
+                  | DataType.Float32
+                  | DataType.Float64
+                  | DataType.Binary
+                  | DataType.Utf8
+                >type.type(),
+            },
+            options: {
+              get: () => <TCommonOpts>Object.defineProperties(
+                  {},
+                  {
+                    nullable: {
+                      get: () => getComOpts().nullable(),
+                    },
+                  },
+                ),
+            },
+          },
+        );
         break;
       case TypeOpts.DecimalOpts:
-        options = type.options(new DecimalOpts());
-        data = {
-          type: <DataType.Decimal>type.type(),
-          options: {
-            nullable: (<DecimalOpts>options).nullable(),
-            scale: (<DecimalOpts>options).scale(),
-            precision: (<DecimalOpts>options).precision(),
-            bitWidth: (<DecimalOpts>options).bitWidth(),
-          },
+        let decOpts: null | DecimalOpts = null;
+        const getDecOpts = () => {
+          if (!decOpts) {
+            decOpts = <DecimalOpts>type.options(new DecimalOpts());
+          }
+          return decOpts;
         };
+        data = <TType>Object.defineProperties(
+          {},
+          {
+            type: {
+              get: () => <DataType.Decimal>type.type(),
+            },
+            options: {
+              get: () => <TDecimalOpts>Object.defineProperties(
+                  {},
+                  {
+                    nullable: { get: () => getDecOpts().nullable() },
+                    scale: { get: () => getDecOpts().scale() },
+                    precision: {
+                      get: () => getDecOpts().precision(),
+                    },
+                    bitWidth: { get: () => getDecOpts().bitWidth() },
+                  },
+                ),
+            },
+          },
+        );
         break;
       case TypeOpts.DateOpts:
-        options = type.options(new DateOpts());
-        data = {
-          type: <DataType.Date>type.type(),
-          options: {
-            nullable: (<DateOpts>options).nullable(),
-            unit: (<DateOpts>options).unit(),
-          },
+        let dateOpts: null | DateOpts = null;
+        const getDateOpts = () => {
+          if (!dateOpts) {
+            dateOpts = <DateOpts>type.options(new DateOpts());
+          }
+          return dateOpts;
         };
+        data = <TType>Object.defineProperties(
+          {},
+          {
+            type: {
+              get: () => <DataType.Date>type.type(),
+            },
+            options: {
+              get: () => <TDateOpts>Object.defineProperties(
+                  {},
+                  {
+                    nullable: { get: () => getDateOpts().nullable() },
+                    unit: { get: () => getDateOpts().unit() },
+                  },
+                ),
+            },
+          },
+        );
         break;
       case TypeOpts.TimeOpts:
-        options = type.options(new TimeOpts());
-        data = {
-          type: <DataType.Time>type.type(),
-          options: {
-            nullable: (<TimeOpts>options).nullable(),
-            unit: (<TimeOpts>options).unit(),
-          },
+        let timeOpts: null | TimeOpts = null;
+        const getTimeOpts = () => {
+          if (!timeOpts) {
+            timeOpts = <TimeOpts>type.options(new TimeOpts());
+          }
+          return timeOpts;
         };
+        data = <TType>Object.defineProperties(
+          {},
+          {
+            type: {
+              get: () => <DataType.Time>type.type(),
+            },
+            options: {
+              get: () => <TTimeOpts>Object.defineProperties(
+                  {},
+                  {
+                    nullable: { get: () => getTimeOpts().nullable() },
+                    unit: { get: () => getTimeOpts().unit() },
+                  },
+                ),
+            },
+          },
+        );
         break;
       case TypeOpts.TimestampOpts:
-        options = type.options(new TimestampOpts());
-        data = {
-          type: <DataType.Timestamp>type.type(),
-          options: {
-            nullable: (<TimestampOpts>options).nullable(),
-            unit: (<TimestampOpts>options).unit(),
-            // timezone: (<TimestampOpts>options).timezone(),
-          },
+        let tsOpts: null | TimestampOpts = null;
+        const getTsOpts = () => {
+          if (!tsOpts) {
+            tsOpts = <TimestampOpts>type.options(new TimestampOpts());
+          }
+          return tsOpts;
         };
+        data = <TType>Object.defineProperties(
+          {},
+          {
+            type: {
+              get: () => <DataType.Timestamp>type.type(),
+            },
+            options: {
+              get: () => <TTimestampOpts>Object.defineProperties(
+                  {},
+                  {
+                    nullable: { get: () => getTsOpts().nullable() },
+                    unit: { get: () => getTsOpts().unit() },
+                  },
+                ),
+            },
+          },
+        );
         break;
     }
     return data;

@@ -44,10 +44,19 @@ export class ModelHelper {
   }
 
   public parseModel(model: Model): ModelDef {
-    return {
-      name: model.name() || "",
-      tables: this._table.parseTables(model),
-      joins: this._join.parseJoins(model),
-    };
+    return <ModelDef>Object.defineProperties(
+      {},
+      {
+        name: {
+          get: () => model.name() || "",
+        },
+        tables: {
+          get: () => this._table.parseTables(model),
+        },
+        joins: {
+          get: () => this._join.parseJoins(model),
+        },
+      },
+    );
   }
 }
