@@ -5,34 +5,34 @@
  */
 
 import {
-  DecimalOptsDef,
-  DateOptsDef,
-  TimeOptsDef,
-  TimestampOptsDef,
-} from "./helpers/FieldHelper";
-import { Query, QueryDef } from "./Query";
+  TDecimalOpts,
+  TDateOpts,
+  TTimeOpts,
+  TTimestampOpts,
+  TQuery,
+} from "./types";
+import { Query } from "./Query";
 import {
-  TableType,
-  AggType,
-  DateUnit,
-  TimeUnit,
-  TimeZone,
-  DataType,
-  DecBitWidth,
-  JoinType,
-  FilterOperator,
-  FilterType,
-  FilterName,
+  TableTypeEnum,
+  AggTypeEnum,
+  DateUnitEnum,
+  TimeUnitEnum,
+  DataTypeEnum,
+  DecBitWidthEnum,
+  JoinTypeEnum,
+  FilterOperatorEnum,
+  FilterTypeEnum,
+  FilterNameEnum,
 } from "./enums";
 
 describe("Query schema", () => {
-  const QueryDef: QueryDef = {
+  const QueryObj: TQuery = {
     model: {
       name: "Test Model",
       tables: [
         {
           name: "table1",
-          type: TableType.Table,
+          type: TableTypeEnum.Table,
           source: "catalog.schema.table1",
           fields: [
             {
@@ -47,19 +47,19 @@ describe("Query schema", () => {
               origin: "origin2",
               clause: "clause2",
               description: "description2",
-              agg: AggType.Avg,
+              agg: AggTypeEnum.Avg,
             },
           ],
         },
         {
           name: "table2",
-          type: TableType.Table,
+          type: TableTypeEnum.Table,
           source: "catalog.schema.table2",
           fields: [
             {
               name: "field1",
               type: {
-                type: DataType.Int8,
+                type: DataTypeEnum.Int8,
                 options: {
                   nullable: true,
                 },
@@ -68,7 +68,7 @@ describe("Query schema", () => {
             {
               name: "field2",
               type: {
-                type: DataType.Utf8,
+                type: DataTypeEnum.Utf8,
                 options: {
                   nullable: true,
                 },
@@ -77,43 +77,42 @@ describe("Query schema", () => {
             {
               name: "field3",
               type: {
-                type: DataType.Decimal,
+                type: DataTypeEnum.Decimal,
                 options: {
                   nullable: true,
                   scale: 10,
                   precision: 10,
-                  bitWidth: DecBitWidth._128,
+                  bitWidth: DecBitWidthEnum._128,
                 },
               },
             },
             {
               name: "field4",
               type: {
-                type: DataType.Date,
+                type: DataTypeEnum.Date,
                 options: {
                   nullable: true,
-                  unit: DateUnit.second,
+                  unit: DateUnitEnum.second,
                 },
               },
             },
             {
               name: "field5",
               type: {
-                type: DataType.Time,
+                type: DataTypeEnum.Time,
                 options: {
                   nullable: true,
-                  unit: TimeUnit.nanosecond,
+                  unit: TimeUnitEnum.nanosecond,
                 },
               },
             },
             {
               name: "field6",
               type: {
-                type: DataType.Timestamp,
+                type: DataTypeEnum.Timestamp,
                 options: {
                   nullable: true,
-                  unit: TimeUnit.nanosecond,
-                  timezone: TimeZone.Europe_Kiev,
+                  unit: TimeUnitEnum.nanosecond,
                 },
               },
             },
@@ -122,29 +121,29 @@ describe("Query schema", () => {
       ],
       joins: [
         {
-          type: JoinType.Inner,
+          type: JoinTypeEnum.Inner,
           left: "table1",
           right: "table2",
           clause: {
-            type: FilterOperator.Or,
+            type: FilterOperatorEnum.Or,
             filters: [
               {
-                type: FilterType.Expr,
+                type: FilterTypeEnum.Expr,
                 options: {
                   clause: '"field1" = "field1"',
                 },
               },
               {
-                type: FilterType.Keys,
+                type: FilterTypeEnum.Keys,
                 options: {
                   left: "field1",
                   right: "field1",
                 },
               },
               {
-                type: FilterType.Named,
+                type: FilterTypeEnum.Named,
                 options: {
-                  name: FilterName.IsNotNull,
+                  name: FilterNameEnum.IsNotNull,
                   field: "field1",
                   values: [],
                 },
@@ -152,25 +151,25 @@ describe("Query schema", () => {
             ],
             children: [
               {
-                type: FilterOperator.And,
+                type: FilterOperatorEnum.And,
                 filters: [
                   {
-                    type: FilterType.Expr,
+                    type: FilterTypeEnum.Expr,
                     options: {
                       clause: '"field1" = "field1"',
                     },
                   },
                   {
-                    type: FilterType.Keys,
+                    type: FilterTypeEnum.Keys,
                     options: {
                       left: "field1",
                       right: "field1",
                     },
                   },
                   {
-                    type: FilterType.Named,
+                    type: FilterTypeEnum.Named,
                     options: {
-                      name: FilterName.IsNotNull,
+                      name: FilterNameEnum.IsNotNull,
                       field: "field1",
                       values: [],
                     },
@@ -194,36 +193,36 @@ describe("Query schema", () => {
           origin: "origin1",
           clause: "clause1",
           description: "description1",
-          agg: AggType.Count,
+          agg: AggTypeEnum.Count,
         },
         {
           name: "field2",
           origin: "origin2",
           clause: "clause2",
           description: "description2",
-          agg: AggType.Avg,
+          agg: AggTypeEnum.Avg,
         },
       ],
       filterBy: {
-        type: FilterOperator.Or,
+        type: FilterOperatorEnum.Or,
         filters: [
           {
-            type: FilterType.Expr,
+            type: FilterTypeEnum.Expr,
             options: {
               clause: '"field1" = "field1"',
             },
           },
           {
-            type: FilterType.Keys,
+            type: FilterTypeEnum.Keys,
             options: {
               left: "field1",
               right: "field1",
             },
           },
           {
-            type: FilterType.Named,
+            type: FilterTypeEnum.Named,
             options: {
-              name: FilterName.IsNotNull,
+              name: FilterNameEnum.IsNotNull,
               field: "field1",
               values: [],
             },
@@ -231,25 +230,25 @@ describe("Query schema", () => {
         ],
         children: [
           {
-            type: FilterOperator.And,
+            type: FilterOperatorEnum.And,
             filters: [
               {
-                type: FilterType.Expr,
+                type: FilterTypeEnum.Expr,
                 options: {
                   clause: '"field1" = "field1"',
                 },
               },
               {
-                type: FilterType.Keys,
+                type: FilterTypeEnum.Keys,
                 options: {
                   left: "field1",
                   right: "field1",
                 },
               },
               {
-                type: FilterType.Named,
+                type: FilterTypeEnum.Named,
                 options: {
-                  name: FilterName.IsNotNull,
+                  name: FilterNameEnum.IsNotNull,
                   field: "field1",
                   values: [],
                 },
@@ -265,7 +264,7 @@ describe("Query schema", () => {
           origin: "origin1",
           clause: "clause1",
           description: "description1",
-          agg: AggType.Count,
+          agg: AggTypeEnum.Count,
         },
       ],
       splitBy: [
@@ -274,7 +273,7 @@ describe("Query schema", () => {
           origin: "origin2",
           clause: "clause2",
           description: "description2",
-          agg: AggType.Avg,
+          agg: AggTypeEnum.Avg,
         },
       ],
       sortBy: [
@@ -304,36 +303,36 @@ describe("Query schema", () => {
             origin: "origin1",
             clause: "clause1",
             description: "description1",
-            agg: AggType.Count,
+            agg: AggTypeEnum.Count,
           },
           {
             name: "field2",
             origin: "origin2",
             clause: "clause2",
             description: "description2",
-            agg: AggType.Avg,
+            agg: AggTypeEnum.Avg,
           },
         ],
         filterBy: {
-          type: FilterOperator.Or,
+          type: FilterOperatorEnum.Or,
           filters: [
             {
-              type: FilterType.Expr,
+              type: FilterTypeEnum.Expr,
               options: {
                 clause: '"field1" = "field1"',
               },
             },
             {
-              type: FilterType.Keys,
+              type: FilterTypeEnum.Keys,
               options: {
                 left: "field1",
                 right: "field1",
               },
             },
             {
-              type: FilterType.Named,
+              type: FilterTypeEnum.Named,
               options: {
-                name: FilterName.IsNotNull,
+                name: FilterNameEnum.IsNotNull,
                 field: "field1",
                 values: [],
               },
@@ -341,25 +340,25 @@ describe("Query schema", () => {
           ],
           children: [
             {
-              type: FilterOperator.And,
+              type: FilterOperatorEnum.And,
               filters: [
                 {
-                  type: FilterType.Expr,
+                  type: FilterTypeEnum.Expr,
                   options: {
                     clause: '"field1" = "field1"',
                   },
                 },
                 {
-                  type: FilterType.Keys,
+                  type: FilterTypeEnum.Keys,
                   options: {
                     left: "field1",
                     right: "field1",
                   },
                 },
                 {
-                  type: FilterType.Named,
+                  type: FilterTypeEnum.Named,
                   options: {
-                    name: FilterName.IsNotNull,
+                    name: FilterNameEnum.IsNotNull,
                     field: "field1",
                     values: [],
                   },
@@ -375,7 +374,7 @@ describe("Query schema", () => {
             origin: "origin1",
             clause: "clause1",
             description: "description1",
-            agg: AggType.Count,
+            agg: AggTypeEnum.Count,
           },
         ],
         splitBy: [
@@ -384,7 +383,7 @@ describe("Query schema", () => {
             origin: "origin2",
             clause: "clause2",
             description: "description2",
-            agg: AggType.Avg,
+            agg: AggTypeEnum.Avg,
           },
         ],
         sortBy: [
@@ -411,20 +410,20 @@ describe("Query schema", () => {
   let document2: Query;
 
   it("must be constructible and parsable", () => {
-    document1 = new Query(QueryDef);
+    document1 = new Query(QueryObj);
     document2 = new Query(document1.buffer);
 
-    expect(QueryDef.model?.name).toEqual(document1.model?.name);
-    expect(QueryDef.model?.name).toEqual(document2.model?.name);
+    expect(QueryObj.model?.name).toEqual(document1.model?.name);
+    expect(QueryObj.model?.name).toEqual(document2.model?.name);
 
-    expect(QueryDef.model?.tables.length).toEqual(
+    expect(QueryObj.model?.tables.length).toEqual(
       document1.model?.tables.length,
     );
-    expect(QueryDef.model?.tables.length).toEqual(
+    expect(QueryObj.model?.tables.length).toEqual(
       document2.model?.tables.length,
     );
 
-    QueryDef.model?.tables.forEach((table, i) => {
+    QueryObj.model?.tables.forEach((table, i) => {
       expect(table.name).toEqual(document1.model?.tables[i].name);
       expect(table.name).toEqual(document2.model?.tables[i].name);
 
@@ -473,10 +472,10 @@ describe("Query schema", () => {
 
           if (j === 0) {
             expect(document1.model?.tables[i].fields[j].agg).toEqual(
-              AggType.None,
+              AggTypeEnum.None,
             );
             expect(document2.model?.tables[i].fields[j].agg).toEqual(
-              AggType.None,
+              AggTypeEnum.None,
             );
             expect(document1.model?.tables[i].fields[j].asc).toEqual(
               false,
@@ -487,10 +486,10 @@ describe("Query schema", () => {
           }
           if (j === 1) {
             expect(document1.model?.tables[i].fields[j].agg).toEqual(
-              AggType.Avg,
+              AggTypeEnum.Avg,
             );
             expect(document2.model?.tables[i].fields[j].agg).toEqual(
-              AggType.Avg,
+              AggTypeEnum.Avg,
             );
             expect(document1.model?.tables[i].fields[j].asc).toEqual(
               true,
@@ -505,79 +504,81 @@ describe("Query schema", () => {
           const field2 = document2.model?.tables[i].fields[j];
           if (field1 && field2) {
             if (j === 0) {
-              expect(field1.type?.type).toEqual(DataType.Int8);
+              expect(field1.type?.type).toEqual(DataTypeEnum.Int8);
               expect(field1.type?.options.nullable).toBeTruthy();
 
-              expect(field2.type?.type).toEqual(DataType.Int8);
+              expect(field2.type?.type).toEqual(DataTypeEnum.Int8);
               expect(field2.type?.options.nullable).toBeTruthy();
             }
             if (j === 1) {
-              expect(field1.type?.type).toEqual(DataType.Utf8);
+              expect(field1.type?.type).toEqual(DataTypeEnum.Utf8);
               expect(field1.type?.options.nullable).toBeTruthy();
 
-              expect(field2.type?.type).toEqual(DataType.Utf8);
+              expect(field2.type?.type).toEqual(DataTypeEnum.Utf8);
               expect(field2.type?.options.nullable).toBeTruthy();
             }
             if (j === 2) {
-              const opts1 = <DecimalOptsDef>field1.type?.options;
-              const opts2 = <DecimalOptsDef>field2.type?.options;
+              const opts1 = <TDecimalOpts>field1.type?.options;
+              const opts2 = <TDecimalOpts>field2.type?.options;
 
-              expect(field1.type?.type).toEqual(DataType.Decimal);
+              expect(field1.type?.type).toEqual(DataTypeEnum.Decimal);
               expect(opts1.nullable).toBeTruthy();
               expect(opts1.scale).toEqual(10);
               expect(opts1.precision).toEqual(10);
-              expect(opts1.bitWidth).toEqual(DecBitWidth._128);
+              expect(opts1.bitWidth).toEqual(DecBitWidthEnum._128);
 
-              expect(field2.type?.type).toEqual(DataType.Decimal);
+              expect(field2.type?.type).toEqual(DataTypeEnum.Decimal);
               expect(opts2.nullable).toBeTruthy();
               expect(opts2.scale).toEqual(10);
               expect(opts2.precision).toEqual(10);
-              expect(opts2.bitWidth).toEqual(DecBitWidth._128);
+              expect(opts2.bitWidth).toEqual(DecBitWidthEnum._128);
             }
             if (j === 3) {
-              const opts1 = <DateOptsDef>field1.type?.options;
-              const opts2 = <DateOptsDef>field2.type?.options;
+              const opts1 = <TDateOpts>field1.type?.options;
+              const opts2 = <TDateOpts>field2.type?.options;
 
-              expect(field1.type?.type).toEqual(DataType.Date);
+              expect(field1.type?.type).toEqual(DataTypeEnum.Date);
               expect(opts1.nullable).toBeTruthy();
-              expect(opts1.unit).toEqual(DateUnit.second);
+              expect(opts1.unit).toEqual(DateUnitEnum.second);
 
-              expect(field2.type?.type).toEqual(DataType.Date);
+              expect(field2.type?.type).toEqual(DataTypeEnum.Date);
               expect(opts2.nullable).toBeTruthy();
-              expect(opts2.unit).toEqual(DateUnit.second);
+              expect(opts2.unit).toEqual(DateUnitEnum.second);
             }
             if (j === 4) {
-              const opts1 = <TimeOptsDef>field1.type?.options;
-              const opts2 = <TimeOptsDef>field2.type?.options;
+              const opts1 = <TTimeOpts>field1.type?.options;
+              const opts2 = <TTimeOpts>field2.type?.options;
 
-              expect(field1.type?.type).toEqual(DataType.Time);
+              expect(field1.type?.type).toEqual(DataTypeEnum.Time);
               expect(opts1.nullable).toBeTruthy();
-              expect(opts1.unit).toEqual(TimeUnit.nanosecond);
+              expect(opts1.unit).toEqual(TimeUnitEnum.nanosecond);
 
-              expect(field2.type?.type).toEqual(DataType.Time);
+              expect(field2.type?.type).toEqual(DataTypeEnum.Time);
               expect(opts2.nullable).toBeTruthy();
-              expect(opts2.unit).toEqual(TimeUnit.nanosecond);
+              expect(opts2.unit).toEqual(TimeUnitEnum.nanosecond);
             }
             if (j === 5) {
-              const opts1 = <TimestampOptsDef>field1.type?.options;
-              const opts2 = <TimestampOptsDef>field2.type?.options;
+              const opts1 = <TTimestampOpts>field1.type?.options;
+              const opts2 = <TTimestampOpts>field2.type?.options;
 
-              expect(field1.type?.type).toEqual(DataType.Timestamp);
+              expect(field1.type?.type).toEqual(
+                DataTypeEnum.Timestamp,
+              );
               expect(opts1.nullable).toBeTruthy();
-              expect(opts1.unit).toEqual(TimeUnit.nanosecond);
-              expect(opts1.timezone).toEqual(TimeZone.Europe_Kiev);
+              expect(opts1.unit).toEqual(TimeUnitEnum.nanosecond);
 
-              expect(field2.type?.type).toEqual(DataType.Timestamp);
+              expect(field2.type?.type).toEqual(
+                DataTypeEnum.Timestamp,
+              );
               expect(opts2.nullable).toBeTruthy();
-              expect(opts2.unit).toEqual(TimeUnit.nanosecond);
-              expect(opts2.timezone).toEqual(TimeZone.Europe_Kiev);
+              expect(opts2.unit).toEqual(TimeUnitEnum.nanosecond);
             }
           }
         }
       });
     });
 
-    QueryDef.model?.joins.forEach((join, i) => {
+    QueryObj.model?.joins.forEach((join, i) => {
       const join1 = document1.model?.joins[i];
       const join2 = document2.model?.joins[i];
 

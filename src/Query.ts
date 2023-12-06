@@ -13,7 +13,7 @@ import { FrameHelper } from "./helpers/FrameHelper";
 import { TModel, TFrame, TQuery } from "./types";
 
 /**
- * Query helper class.
+ * Query class.
  */
 export class Query {
   private _builder: Builder;

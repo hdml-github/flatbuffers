@@ -130,8 +130,12 @@ export class FilterHelper {
                     <TFilter>Object.defineProperties(
                       {},
                       {
-                        type: { get: () => filter.type() },
+                        type: {
+                          enumerable: true,
+                          get: () => filter.type(),
+                        },
                         options: {
+                          enumerable: true,
                           get: () => this.parseFilterOpts(filter),
                         },
                       },
@@ -180,7 +184,10 @@ export class FilterHelper {
         return <TExprOpts>Object.defineProperties(
           {},
           {
-            clause: { get: () => getExprOpts().clause() },
+            clause: {
+              enumerable: true,
+              get: () => getExprOpts().clause(),
+            },
           },
         );
       case FilterOpts.KeysOpts:
@@ -194,8 +201,14 @@ export class FilterHelper {
         return <TKeysOpts>Object.defineProperties(
           {},
           {
-            left: { get: () => getKeysOpts().left() },
-            right: { get: () => getKeysOpts().right() },
+            left: {
+              enumerable: true,
+              get: () => getKeysOpts().left(),
+            },
+            right: {
+              enumerable: true,
+              get: () => getKeysOpts().right(),
+            },
           },
         );
       case FilterOpts.NamedOpts:
@@ -209,9 +222,16 @@ export class FilterHelper {
         return <TNamedOpts>Object.defineProperties(
           {},
           {
-            name: { get: () => getNamedOpts().name() },
-            field: { get: () => getNamedOpts().field() },
+            name: {
+              enumerable: true,
+              get: () => getNamedOpts().name(),
+            },
+            field: {
+              enumerable: true,
+              get: () => getNamedOpts().field(),
+            },
             values: {
+              enumerable: true,
               get: () => {
                 const v: string[] = [];
                 for (
