@@ -6,25 +6,10 @@
 
 import { Builder } from "flatbuffers";
 import { Frame } from "../.fbs/query.Frame_generated";
-import { FieldHelper, FieldDef } from "./FieldHelper";
-import { FilterHelper, FilterClauseDef } from "./FilterHelper";
 import { FilterClause } from "../.fbs/query.FilterClause_generated";
-
-/**
- * An object for defining frame.
- */
-export type FrameDef = {
-  name: string;
-  source: string;
-  offset: number;
-  limit: number;
-  fields: FieldDef[];
-  filterBy?: FilterClauseDef;
-  groupBy?: FieldDef[];
-  splitBy?: FieldDef[];
-  sortBy?: FieldDef[];
-  parent?: FrameDef;
-};
+import { FieldHelper } from "./FieldHelper";
+import { FilterHelper } from "./FilterHelper";
+import { TFrame } from "../types";
 
 /**
  * Frame helper class.
@@ -38,7 +23,7 @@ export class FrameHelper {
     this._filter = new FilterHelper(this._builder);
   }
 
-  public bufferizeFrame(data: FrameDef): number {
+  public bufferizeFrame(data: TFrame): number {
     const name = this._builder.createString(data.name);
     const source = this._builder.createString(data.source);
     const fields_ = this._field.bufferizeFields(data.fields);
@@ -90,34 +75,74 @@ export class FrameHelper {
     return Frame.endFrame(this._builder);
   }
 
-  public parseFrame(frame: Frame): FrameDef {
-    const clause = frame.filterBy(new FilterClause());
-    const parent = frame.parent(new Frame());
-    return {
-      name: <string>frame.name(),
-      source: <string>frame.source(),
-      limit: Number(frame.limit()),
-      offset: Number(frame.offset()),
-      fields: this._field.parseFields(
-        frame.fields.bind(frame),
-        frame.fieldsLength(),
-      ),
-      filterBy: clause
-        ? this._filter.parseFilterClause(clause)
-        : undefined,
-      groupBy: this._field.parseFields(
-        frame.groupBy.bind(frame),
-        frame.groupByLength(),
-      ),
-      splitBy: this._field.parseFields(
-        frame.splitBy.bind(frame),
-        frame.splitByLength(),
-      ),
-      sortBy: this._field.parseFields(
-        frame.sortBy.bind(frame),
-        frame.sortByLength(),
-      ),
-      parent: parent ? this.parseFrame(parent) : undefined,
+  public parseFrame(frame: Frame): TFrame {
+    let clause: null | FilterClause = null;
+    let parent: null | Frame = null;
+
+    const getClause = () => {
+      if (!clause) {
+        clause = frame.filterBy(new FilterClause());
+      }
+      return clause;
     };
+
+    const getParent = () => {
+      if (!parent) {
+        parent = frame.parent(new Frame());
+      }
+      return parent;
+    };
+
+    return <TFrame>Object.defineProperties(
+      {},
+      {
+        name: { get: () => <string>frame.name() },
+        source: { get: () => <string>frame.source() },
+        limit: { get: () => Number(frame.limit()) },
+        offset: { get: () => Number(frame.offset()) },
+        fields: {
+          get: () =>
+            this._field.parseFields(
+              frame.fields.bind(frame),
+              frame.fieldsLength(),
+            ),
+        },
+        filterBy: {
+          get: () => {
+            const clause = getClause();
+            return clause
+              ? this._filter.parseFilterClause(clause)
+              : undefined;
+          },
+        },
+        groupBy: {
+          get: () =>
+            this._field.parseFields(
+              frame.groupBy.bind(frame),
+              frame.groupByLength(),
+            ),
+        },
+        splitBy: {
+          get: () =>
+            this._field.parseFields(
+              frame.splitBy.bind(frame),
+              frame.splitByLength(),
+            ),
+        },
+        sortBy: {
+          get: () =>
+            this._field.parseFields(
+              frame.sortBy.bind(frame),
+              frame.sortByLength(),
+            ),
+        },
+        parent: {
+          get: () => {
+            const parent = getParent();
+            return parent ? this.parseFrame(parent) : undefined;
+          },
+        },
+      },
+    );
   }
 }

@@ -40,6 +40,8 @@ export class JoinHelper {
     const joins: TJoin[] = [];
     for (let i = 0; i < model.joinsLength(); i++) {
       let join: null | Join = null;
+      let clause: null | FilterClause = null;
+
       const getJoin = () => {
         if (!join) {
           join = model.joins(i, new Join());
@@ -50,7 +52,6 @@ export class JoinHelper {
         return join;
       };
 
-      let clause: null | FilterClause = null;
       const getClause = (join: Join) => {
         if (!clause) {
           clause = join.clause(new FilterClause());

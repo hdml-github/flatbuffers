@@ -18,6 +18,7 @@ import { TFilter } from "./TFilter";
 import { TFilterClause } from "./TFilterClause";
 import { TTable } from "./TTable";
 import { TJoin } from "./TJoin";
+import { TFrame } from "./TFrame";
 
 export {
   // fields
@@ -38,4 +39,6 @@ export {
   TTable,
   // join
   TJoin,
+  // frame
+  TFrame,
 };
