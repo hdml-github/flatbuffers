@@ -6,9 +6,9 @@
 
 namespace enum;
 
-/// Query filter oprators enum.
-enum FilterOperator: byte {
-  Or,
-  And,
-  None,
+/// Filter types enum.
+enum FilterTypeEnum: byte {
+  Expr,
+  Keys,
+  Named,
 }

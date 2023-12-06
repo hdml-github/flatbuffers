@@ -6,8 +6,10 @@
 
 namespace enum;
 
-/// Query decimal data field bit width enum.
-enum DecBitWidth: byte {
-  _128,
-  _256,
+/// Time unit enum.
+enum TimeUnitEnum: byte {
+  second,
+  millisecond,
+  microsecond,
+  nanosecond,
 }

@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Posted query state enum.
-enum QueryState: byte {
+/// Query states enum.
+enum QueryStateEnum: byte {
   PROCESSING,
   SCHEMA,
   CHUNK,

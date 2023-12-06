@@ -4,14 +4,14 @@
  * @license Apache-2.0
  */
 
-import { FilterOperator } from "../enums";
+import { FilterOperatorEnum } from "../enums";
 import { TFilter } from "./TFilter";
 
 /**
  * An object to define filters clause.
  */
 export type TFilterClause = {
-  type: FilterOperator;
+  type: FilterOperatorEnum;
   filters: TFilter[];
   children: TFilterClause[];
 };

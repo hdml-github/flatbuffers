@@ -4,32 +4,29 @@
  * @license Apache-2.0
  */
 
-import { TableType } from "./.fbs/enum.TableType_generated";
-import { AggType } from "./.fbs/enum.AggType_generated";
-import { DateUnit } from "./.fbs/enum.DateUnit_generated";
-import { TimeUnit } from "./.fbs/enum.TimeUnit_generated";
-// import { TimeZone } from "./.fbs/enum.TimeZone_generated";
-import { DataType } from "./.fbs/enum.DataType_generated";
-import { JoinType } from "./.fbs/enum.JoinType_generated";
-import { FilterName } from "./.fbs/enum.FilterName_generated";
-import { FilterType } from "./.fbs/enum.FilterType_generated";
-import { FilterOperator } from "./.fbs/enum.FilterOperator_generated";
-import { DecBitWidth } from "./.fbs/enum.DecBitWidth_generated";
-// import { FileState } from "./.fbs/enum.FileState_generated";
-import { QueryState } from "./.fbs/enum.QueryState_generated";
+/* eslint-disable max-len */
 
+import { TableTypeEnum } from "./.fbs/enum.TableTypeEnum_generated";
+import { AggTypeEnum } from "./.fbs/enum.AggTypeEnum_generated";
+import { DateUnitEnum } from "./.fbs/enum.DateUnitEnum_generated";
+import { TimeUnitEnum } from "./.fbs/enum.TimeUnitEnum_generated";
+import { DataTypeEnum } from "./.fbs/enum.DataTypeEnum_generated";
+import { JoinTypeEnum } from "./.fbs/enum.JoinTypeEnum_generated";
+import { FilterNameEnum } from "./.fbs/enum.FilterNameEnum_generated";
+import { FilterTypeEnum } from "./.fbs/enum.FilterTypeEnum_generated";
+import { FilterOperatorEnum } from "./.fbs/enum.FilterOperatorEnum_generated";
+import { DecBitWidthEnum } from "./.fbs/enum.DecBitWidthEnum_generated";
+import { QueryStateEnum } from "./.fbs/enum.QueryStateEnum_generated";
 export {
-  TableType,
-  AggType,
-  DateUnit,
-  TimeUnit,
-  // TimeZone,
-  DataType,
-  DecBitWidth,
-  JoinType,
-  FilterName,
-  FilterType,
-  FilterOperator,
-  // FileState,
-  QueryState,
+  TableTypeEnum,
+  AggTypeEnum,
+  DateUnitEnum,
+  TimeUnitEnum,
+  DataTypeEnum,
+  DecBitWidthEnum,
+  JoinTypeEnum,
+  FilterNameEnum,
+  FilterTypeEnum,
+  FilterOperatorEnum,
+  QueryStateEnum,
 };

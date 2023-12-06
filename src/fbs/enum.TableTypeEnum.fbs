@@ -6,10 +6,10 @@
 
 namespace enum;
 
-/// Query time unit enum.
-enum TimeUnit: byte {
-  second,
-  millisecond,
-  microsecond,
-  nanosecond,
+/// Table types enum.
+enum TableTypeEnum: byte {
+  Json,
+  Csv,
+  Table,
+  Query,
 }

@@ -20,6 +20,7 @@ import { TTable } from "./TTable";
 import { TJoin } from "./TJoin";
 import { TModel } from "./TModel";
 import { TFrame } from "./TFrame";
+import { TQuery } from "./TQuery";
 
 export {
   // fields
@@ -44,4 +45,6 @@ export {
   TModel,
   // frame
   TFrame,
+  // query
+  TQuery,
 };

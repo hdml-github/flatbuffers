@@ -8,8 +8,9 @@ import { ByteBuffer, Builder } from "flatbuffers";
 import { Query as _Query } from "./.fbs/query.Query_generated";
 import { Model } from "./.fbs/query.Model_generated";
 import { Frame } from "./.fbs/query.Frame_generated";
-import { ModelHelper, ModelDef } from "./helpers/ModelHelper";
-import { FrameHelper, FrameDef } from "./helpers/FrameHelper";
+import { ModelHelper } from "./helpers/ModelHelper";
+import { FrameHelper } from "./helpers/FrameHelper";
+import { TModel, TFrame, TQuery } from "./types";
 
 /**
  * Query helper class.
@@ -25,7 +26,7 @@ export class Query {
     return this._buffer.bytes();
   }
 
-  public get model(): undefined | ModelDef {
+  public get model(): undefined | TModel {
     const model = this._query.model(new Model());
     if (model) {
       return this._model.parseModel(model);
@@ -33,7 +34,7 @@ export class Query {
     return;
   }
 
-  public get frame(): undefined | FrameDef {
+  public get frame(): undefined | TFrame {
     const frame = this._query.frame(new Frame());
     if (frame) {
       return this._frame.parseFrame(frame);
@@ -41,7 +42,7 @@ export class Query {
     return;
   }
 
-  constructor(data: Uint8Array | QueryDef) {
+  constructor(data: Uint8Array | TQuery) {
     this._builder = new Builder(1024);
     this._model = new ModelHelper(this._builder);
     this._frame = new FrameHelper(this._builder);
@@ -70,16 +71,3 @@ export class Query {
     }
   }
 }
-
-/**
- * Parsed `hdml` query.
- */
-export type QueryDef = {
-  model?: ModelDef;
-  frame?: FrameDef;
-};
-
-/**
- * Bufferized `hdml` query.
- */
-export class QueryBuf extends Query {}

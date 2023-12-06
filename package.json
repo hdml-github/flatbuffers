@@ -32,7 +32,7 @@
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint -c ./.eslintrc.js --fix --parser-options=tsconfigRootDir:'./tsconfig' 'src/**/*.ts'",
     "docs": "./node_modules/.bin/typedoc ./src/index.ts --tsconfig ./tsconfig/cjs.json --out ./docs --includes ./",
-    "compile_fbs": "flatc --ts --ts-flat-files -o ./src/.fbs -I ./src/schemes ./src/schemes/*.fbs",
+    "compile_fbs": "flatc --ts --ts-flat-files -o ./src/.fbs -I ./src/fbs ./src/fbs/*.fbs",
     "compile_cjs": "tsc -b ./tsconfig/cjs.json",
     "compile_esm": "tsc -b ./tsconfig/esm.json",
     "compile_dts": "tsc -b ./tsconfig/dts.json",

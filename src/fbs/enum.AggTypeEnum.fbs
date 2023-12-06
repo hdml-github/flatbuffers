@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Query aggregations enum.
-enum AggType: byte {
+/// Data frame aggregations enum.
+enum AggTypeEnum: byte {
   None = 0,
   Count,
   CountDistinct,

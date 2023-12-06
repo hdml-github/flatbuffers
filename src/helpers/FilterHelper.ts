@@ -15,7 +15,7 @@ import {
   KeysOpts,
   NamedOpts,
 } from "../.fbs/query.FilterClause_generated";
-import { FilterType } from "../enums";
+import { FilterTypeEnum } from "../enums";
 import {
   TExprOpts,
   TKeysOpts,
@@ -62,15 +62,15 @@ export class FilterHelper {
     switch (data.type) {
       default:
         break;
-      case FilterType.Expr:
+      case FilterTypeEnum.Expr:
         type = FilterOpts.ExprOpts;
         opts = this.bufferizeExprOpts(data.options);
         break;
-      case FilterType.Keys:
+      case FilterTypeEnum.Keys:
         type = FilterOpts.KeysOpts;
         opts = this.bufferizeKeysOpts(data.options);
         break;
-      case FilterType.Named:
+      case FilterTypeEnum.Named:
         type = FilterOpts.NamedOpts;
         opts = this.bufferizeNamedOpts(data.options);
         break;

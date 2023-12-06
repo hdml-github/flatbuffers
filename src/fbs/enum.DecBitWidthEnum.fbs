@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Query date units enum.
-enum DateUnit: byte {
-  second,
-  millisecond,
+/// Decimal data bit width enum.
+enum DecBitWidthEnum: byte {
+  _128,
+  _256,
 }

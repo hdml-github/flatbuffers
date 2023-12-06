@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Query join types enum.
-enum JoinType: byte {
+/// Join types enum.
+enum JoinTypeEnum: byte {
   Cross,
   Inner,
   Full,

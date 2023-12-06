@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// `Query filter names enum.
-enum FilterName: byte {
+/// Filter names enum.
+enum FilterNameEnum: byte {
   Equals,
   NotEquals,
   Contains,

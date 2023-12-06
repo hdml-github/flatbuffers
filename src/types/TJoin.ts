@@ -4,14 +4,14 @@
  * @license Apache-2.0
  */
 
-import { JoinType } from "../enums";
+import { JoinTypeEnum } from "../enums";
 import { TFilterClause } from "./TFilterClause";
 
 /**
  * An object to define join.
  */
 export type TJoin = {
-  type: JoinType;
+  type: JoinTypeEnum;
   left: string;
   right: string;
   clause: TFilterClause;

@@ -4,7 +4,7 @@
  * @license Apache-2.0
  */
 
-import { TableType } from "../enums";
+import { TableTypeEnum } from "../enums";
 import { TField } from "./TField";
 
 /**
@@ -12,7 +12,7 @@ import { TField } from "./TField";
  */
 export type TTable = {
   name: string;
-  type: TableType;
+  type: TableTypeEnum;
   source: string;
   fields: TField[];
 };

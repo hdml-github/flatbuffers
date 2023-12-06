@@ -4,7 +4,7 @@
  * @license Apache-2.0
  */
 
-import { AggType } from "../enums";
+import { AggTypeEnum } from "../enums";
 import { TType } from "./TType";
 
 /**
@@ -15,7 +15,7 @@ export type TField = {
   type?: TType;
   origin?: string;
   clause?: string;
-  agg?: AggType;
+  agg?: AggTypeEnum;
   asc?: boolean;
   description?: string;
 };

@@ -4,7 +4,7 @@
  * @license Apache-2.0
  */
 
-import { FilterType } from "../enums";
+import { FilterTypeEnum } from "../enums";
 import { TExprOpts } from "./TExprOpts";
 import { TKeysOpts } from "./TKeysOpts";
 import { TNamedOpts } from "./TNamedOpts";
@@ -14,14 +14,14 @@ import { TNamedOpts } from "./TNamedOpts";
  */
 export type TFilter =
   | {
-      type: FilterType.Expr;
+      type: FilterTypeEnum.Expr;
       options: TExprOpts;
     }
   | {
-      type: FilterType.Keys;
+      type: FilterTypeEnum.Keys;
       options: TKeysOpts;
     }
   | {
-      type: FilterType.Named;
+      type: FilterTypeEnum.Named;
       options: TNamedOpts;
     };

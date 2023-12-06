@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Query time zone enum.
-enum TimeZone: short {
+/// Time zone enum.
+enum TimeZoneEnum: short {
   Africa_Algiers,
   Atlantic_Cape_Verde,
   Africa_Ndjamena,

@@ -6,10 +6,8 @@
 
 namespace enum;
 
-/// Query table types enum.
-enum TableType: byte {
-  Json,
-  Csv,
-  Table,
-  Query,
+/// Date type units enum.
+enum DateUnitEnum: byte {
+  second,
+  millisecond,
 }

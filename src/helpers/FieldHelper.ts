@@ -17,7 +17,7 @@ import {
   DecimalOpts,
   CommonOpts,
 } from "../.fbs/query.Field_generated";
-import { DataType } from "../enums";
+import { DataTypeEnum } from "../enums";
 import {
   TCommonOpts,
   TDecimalOpts,
@@ -83,35 +83,35 @@ export class FieldHelper {
         type = TypeOpts.NONE;
         opts = 0;
         break;
-      case DataType.Int8:
-      case DataType.Int16:
-      case DataType.Int32:
-      case DataType.Int64:
-      case DataType.Uint8:
-      case DataType.Uint16:
-      case DataType.Uint32:
-      case DataType.Uint64:
-      case DataType.Float16:
-      case DataType.Float32:
-      case DataType.Float64:
-      case DataType.Binary:
-      case DataType.Utf8:
+      case DataTypeEnum.Int8:
+      case DataTypeEnum.Int16:
+      case DataTypeEnum.Int32:
+      case DataTypeEnum.Int64:
+      case DataTypeEnum.Uint8:
+      case DataTypeEnum.Uint16:
+      case DataTypeEnum.Uint32:
+      case DataTypeEnum.Uint64:
+      case DataTypeEnum.Float16:
+      case DataTypeEnum.Float32:
+      case DataTypeEnum.Float64:
+      case DataTypeEnum.Binary:
+      case DataTypeEnum.Utf8:
         type = TypeOpts.CommonOpts;
         opts = this.bufferizeCommonOpts(data.options);
         break;
-      case DataType.Decimal:
+      case DataTypeEnum.Decimal:
         type = TypeOpts.DecimalOpts;
         opts = this.bufferizeDecimalOpts(data.options);
         break;
-      case DataType.Date:
+      case DataTypeEnum.Date:
         type = TypeOpts.DateOpts;
         opts = this.bufferizeDateOpts(data.options);
         break;
-      case DataType.Time:
+      case DataTypeEnum.Time:
         type = TypeOpts.TimeOpts;
         opts = this.bufferizeTimeOpts(data.options);
         break;
-      case DataType.Timestamp:
+      case DataTypeEnum.Timestamp:
         type = TypeOpts.TimestampOpts;
         opts = this.bufferizeTimestampOpts(data.options);
         break;
@@ -212,19 +212,19 @@ export class FieldHelper {
             type: {
               get: () =>
                 <
-                  | DataType.Int8
-                  | DataType.Int16
-                  | DataType.Int32
-                  | DataType.Int64
-                  | DataType.Uint8
-                  | DataType.Uint16
-                  | DataType.Uint32
-                  | DataType.Uint64
-                  | DataType.Float16
-                  | DataType.Float32
-                  | DataType.Float64
-                  | DataType.Binary
-                  | DataType.Utf8
+                  | DataTypeEnum.Int8
+                  | DataTypeEnum.Int16
+                  | DataTypeEnum.Int32
+                  | DataTypeEnum.Int64
+                  | DataTypeEnum.Uint8
+                  | DataTypeEnum.Uint16
+                  | DataTypeEnum.Uint32
+                  | DataTypeEnum.Uint64
+                  | DataTypeEnum.Float16
+                  | DataTypeEnum.Float32
+                  | DataTypeEnum.Float64
+                  | DataTypeEnum.Binary
+                  | DataTypeEnum.Utf8
                 >type.type(),
             },
             options: {
@@ -252,7 +252,7 @@ export class FieldHelper {
           {},
           {
             type: {
-              get: () => <DataType.Decimal>type.type(),
+              get: () => <DataTypeEnum.Decimal>type.type(),
             },
             options: {
               get: () => <TDecimalOpts>Object.defineProperties(
@@ -282,7 +282,7 @@ export class FieldHelper {
           {},
           {
             type: {
-              get: () => <DataType.Date>type.type(),
+              get: () => <DataTypeEnum.Date>type.type(),
             },
             options: {
               get: () => <TDateOpts>Object.defineProperties(
@@ -308,7 +308,7 @@ export class FieldHelper {
           {},
           {
             type: {
-              get: () => <DataType.Time>type.type(),
+              get: () => <DataTypeEnum.Time>type.type(),
             },
             options: {
               get: () => <TTimeOpts>Object.defineProperties(
@@ -334,7 +334,7 @@ export class FieldHelper {
           {},
           {
             type: {
-              get: () => <DataType.Timestamp>type.type(),
+              get: () => <DataTypeEnum.Timestamp>type.type(),
             },
             options: {
               get: () => <TTimestampOpts>Object.defineProperties(

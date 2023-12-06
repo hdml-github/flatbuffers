@@ -9,7 +9,7 @@ include "./query.FilterClause.fbs";
 
 namespace query;
 
-/// Query data-frame structure.
+/// Frame structure.
 table Frame {
   name: string;
   source: string;

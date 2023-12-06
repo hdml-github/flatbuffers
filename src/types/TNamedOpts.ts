@@ -4,13 +4,13 @@
  * @license Apache-2.0
  */
 
-import { FilterName } from "../enums";
+import { FilterNameEnum } from "../enums";
 
 /**
  * An object to define named filter options.
  */
 export type TNamedOpts = {
-  name: FilterName;
+  name: FilterNameEnum;
   field: string;
   values: string[];
 };

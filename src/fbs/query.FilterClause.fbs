@@ -4,46 +4,46 @@
  * @license Apache2.0
  */
 
-include "./enum.FilterType.fbs";
-include "./enum.FilterName.fbs";
-include "./enum.FilterOperator.fbs";
+include "./enum.FilterTypeEnum.fbs";
+include "./enum.FilterNameEnum.fbs";
+include "./enum.FilterOperatorEnum.fbs";
 
 namespace query;
 
-/// Query filter clause structure.
+/// Filter clause structure.
 table FilterClause {
-  type: enum.FilterOperator;
+  type: enum.FilterOperatorEnum;
   filters: [Filter];
   children: [FilterClause];
 }
 
-/// Query expression filter options structure.
+/// Expression filter options structure.
 table ExprOpts {
   clause: string;
 }
 
-/// Query keys (joins) filter options structure.
+/// Keys filter (joins) options structure.
 table KeysOpts {
   left: string;
   right: string;
 }
 
-/// Query named filter options structure.
+/// Named filter options structure.
 table NamedOpts {
-  name: enum.FilterName;
+  name: enum.FilterNameEnum;
   field: string;
   values: [string];
 }
 
-/// Query filter options union.
+/// Filter options union.
 union FilterOpts {
   ExprOpts,
   KeysOpts,
   NamedOpts,
 }
 
-/// Query filter structure.
+/// Filter structure.
 table Filter {
-  type: enum.FilterType;
+  type: enum.FilterTypeEnum;
   options: FilterOpts;
 }
