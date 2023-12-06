@@ -40,12 +40,15 @@ export class ModelHelper {
       {},
       {
         name: {
+          enumerable: true,
           get: () => model.name() || "",
         },
         tables: {
+          enumerable: true,
           get: () => this._table.parseTables(model),
         },
         joins: {
+          enumerable: true,
           get: () => this._join.parseJoins(model),
         },
       },

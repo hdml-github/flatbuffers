@@ -45,10 +45,20 @@ export class TableHelper {
           <TTable>Object.defineProperties(
             {},
             {
-              name: { get: () => table.name() || "" },
-              type: { get: () => table.type() },
-              source: { get: () => table.source() || "" },
+              name: {
+                enumerable: true,
+                get: () => table.name() || "",
+              },
+              type: {
+                enumerable: true,
+                get: () => table.type(),
+              },
+              source: {
+                enumerable: true,
+                get: () => table.source() || "",
+              },
               fields: {
+                enumerable: true,
                 get: () =>
                   this._field.parseFields(
                     table.fields.bind(table),

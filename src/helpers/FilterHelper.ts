@@ -118,8 +118,12 @@ export class FilterHelper {
     return <TFilterClause>Object.defineProperties(
       {},
       {
-        type: { get: () => clause.type() },
+        type: {
+          enumerable: true,
+          get: () => clause.type(),
+        },
         filters: {
+          enumerable: true,
           get: () => {
             const filters: TFilter[] = [];
             if (clause.filtersLength() > 0) {
@@ -148,6 +152,7 @@ export class FilterHelper {
           },
         },
         children: {
+          enumerable: true,
           get: () => {
             const children: TFilterClause[] = [];
             if (clause.childrenLength() > 0) {

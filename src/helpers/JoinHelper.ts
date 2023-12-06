@@ -66,10 +66,20 @@ export class JoinHelper {
         <TJoin>Object.defineProperties(
           {},
           {
-            type: { get: () => getJoin().type() },
-            left: { get: () => getJoin().left() },
-            right: { get: () => getJoin().right() },
+            type: {
+              enumerable: true,
+              get: () => getJoin().type(),
+            },
+            left: {
+              enumerable: true,
+              get: () => getJoin().left(),
+            },
+            right: {
+              enumerable: true,
+              get: () => getJoin().right(),
+            },
             clause: {
+              enumerable: true,
               get: () =>
                 this._filter.parseFilterClause(getClause(getJoin())),
             },

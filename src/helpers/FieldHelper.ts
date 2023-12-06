@@ -173,15 +173,32 @@ export class FieldHelper {
           <TField>Object.defineProperties(
             {},
             {
-              name: { get: () => field.name() || "" },
+              name: {
+                enumerable: true,
+                get: () => field.name() || "",
+              },
               type: {
+                enumerable: true,
                 get: () => this.parseType(field.type(new Type())),
               },
-              origin: { get: () => field.origin() || undefined },
-              clause: { get: () => field.clause() || undefined },
-              agg: { get: () => field.agg() },
-              asc: { get: () => field.asc() },
+              origin: {
+                enumerable: true,
+                get: () => field.origin() || undefined,
+              },
+              clause: {
+                enumerable: true,
+                get: () => field.clause() || undefined,
+              },
+              agg: {
+                enumerable: true,
+                get: () => field.agg(),
+              },
+              asc: {
+                enumerable: true,
+                get: () => field.asc(),
+              },
               description: {
+                enumerable: true,
                 get: () => field.description() || undefined,
               },
             },
@@ -210,6 +227,7 @@ export class FieldHelper {
           {},
           {
             type: {
+              enumerable: true,
               get: () =>
                 <
                   | DataTypeEnum.Int8
@@ -228,10 +246,12 @@ export class FieldHelper {
                 >type.type(),
             },
             options: {
+              enumerable: true,
               get: () => <TCommonOpts>Object.defineProperties(
                   {},
                   {
                     nullable: {
+                      enumerable: true,
                       get: () => getComOpts().nullable(),
                     },
                   },
@@ -252,18 +272,30 @@ export class FieldHelper {
           {},
           {
             type: {
+              enumerable: true,
               get: () => <DataTypeEnum.Decimal>type.type(),
             },
             options: {
+              enumerable: true,
               get: () => <TDecimalOpts>Object.defineProperties(
                   {},
                   {
-                    nullable: { get: () => getDecOpts().nullable() },
-                    scale: { get: () => getDecOpts().scale() },
+                    nullable: {
+                      enumerable: true,
+                      get: () => getDecOpts().nullable(),
+                    },
+                    scale: {
+                      enumerable: true,
+                      get: () => getDecOpts().scale(),
+                    },
                     precision: {
+                      enumerable: true,
                       get: () => getDecOpts().precision(),
                     },
-                    bitWidth: { get: () => getDecOpts().bitWidth() },
+                    bitWidth: {
+                      enumerable: true,
+                      get: () => getDecOpts().bitWidth(),
+                    },
                   },
                 ),
             },
@@ -282,14 +314,22 @@ export class FieldHelper {
           {},
           {
             type: {
+              enumerable: true,
               get: () => <DataTypeEnum.Date>type.type(),
             },
             options: {
+              enumerable: true,
               get: () => <TDateOpts>Object.defineProperties(
                   {},
                   {
-                    nullable: { get: () => getDateOpts().nullable() },
-                    unit: { get: () => getDateOpts().unit() },
+                    nullable: {
+                      enumerable: true,
+                      get: () => getDateOpts().nullable(),
+                    },
+                    unit: {
+                      enumerable: true,
+                      get: () => getDateOpts().unit(),
+                    },
                   },
                 ),
             },
@@ -308,14 +348,22 @@ export class FieldHelper {
           {},
           {
             type: {
+              enumerable: true,
               get: () => <DataTypeEnum.Time>type.type(),
             },
             options: {
+              enumerable: true,
               get: () => <TTimeOpts>Object.defineProperties(
                   {},
                   {
-                    nullable: { get: () => getTimeOpts().nullable() },
-                    unit: { get: () => getTimeOpts().unit() },
+                    nullable: {
+                      enumerable: true,
+                      get: () => getTimeOpts().nullable(),
+                    },
+                    unit: {
+                      enumerable: true,
+                      get: () => getTimeOpts().unit(),
+                    },
                   },
                 ),
             },
@@ -334,14 +382,22 @@ export class FieldHelper {
           {},
           {
             type: {
+              enumerable: true,
               get: () => <DataTypeEnum.Timestamp>type.type(),
             },
             options: {
+              enumerable: true,
               get: () => <TTimestampOpts>Object.defineProperties(
                   {},
                   {
-                    nullable: { get: () => getTsOpts().nullable() },
-                    unit: { get: () => getTsOpts().unit() },
+                    nullable: {
+                      enumerable: true,
+                      get: () => getTsOpts().nullable(),
+                    },
+                    unit: {
+                      enumerable: true,
+                      get: () => getTsOpts().unit(),
+                    },
                   },
                 ),
             },

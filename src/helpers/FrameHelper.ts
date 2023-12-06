@@ -96,11 +96,24 @@ export class FrameHelper {
     return <TFrame>Object.defineProperties(
       {},
       {
-        name: { get: () => <string>frame.name() },
-        source: { get: () => <string>frame.source() },
-        limit: { get: () => Number(frame.limit()) },
-        offset: { get: () => Number(frame.offset()) },
+        name: {
+          enumerable: true,
+          get: () => <string>frame.name(),
+        },
+        source: {
+          enumerable: true,
+          get: () => <string>frame.source(),
+        },
+        limit: {
+          enumerable: true,
+          get: () => Number(frame.limit()),
+        },
+        offset: {
+          enumerable: true,
+          get: () => Number(frame.offset()),
+        },
         fields: {
+          enumerable: true,
           get: () =>
             this._field.parseFields(
               frame.fields.bind(frame),
@@ -108,6 +121,7 @@ export class FrameHelper {
             ),
         },
         filterBy: {
+          enumerable: true,
           get: () => {
             const clause = getClause();
             return clause
@@ -116,6 +130,7 @@ export class FrameHelper {
           },
         },
         groupBy: {
+          enumerable: true,
           get: () =>
             this._field.parseFields(
               frame.groupBy.bind(frame),
@@ -123,6 +138,7 @@ export class FrameHelper {
             ),
         },
         splitBy: {
+          enumerable: true,
           get: () =>
             this._field.parseFields(
               frame.splitBy.bind(frame),
@@ -130,6 +146,7 @@ export class FrameHelper {
             ),
         },
         sortBy: {
+          enumerable: true,
           get: () =>
             this._field.parseFields(
               frame.sortBy.bind(frame),
@@ -137,6 +154,7 @@ export class FrameHelper {
             ),
         },
         parent: {
+          enumerable: true,
           get: () => {
             const parent = getParent();
             return parent ? this.parseFrame(parent) : undefined;
