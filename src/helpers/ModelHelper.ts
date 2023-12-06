@@ -6,17 +6,9 @@
 
 import { Builder } from "flatbuffers";
 import { Model } from "../.fbs/query.Model_generated";
-import { TableHelper, TableDef } from "./TableHelper";
-import { JoinHelper, JoinDef } from "./JoinHelper";
-
-/**
- * An object for defining model.
- */
-export type ModelDef = {
-  name: string;
-  tables: TableDef[];
-  joins: JoinDef[];
-};
+import { TableHelper } from "./TableHelper";
+import { JoinHelper } from "./JoinHelper";
+import { TModel } from "../types";
 
 /**
  * Model helper class.
@@ -30,7 +22,7 @@ export class ModelHelper {
     this._join = new JoinHelper(this._builder);
   }
 
-  public bufferizeModel(data: ModelDef): number {
+  public bufferizeModel(data: TModel): number {
     const name = this._builder.createString(data.name);
     const tables_ = this._table.bufferizeTables(data.tables);
     const tables = Model.createTablesVector(this._builder, tables_);
@@ -43,8 +35,8 @@ export class ModelHelper {
     return Model.endModel(this._builder);
   }
 
-  public parseModel(model: Model): ModelDef {
-    return <ModelDef>Object.defineProperties(
+  public parseModel(model: Model): TModel {
+    return <TModel>Object.defineProperties(
       {},
       {
         name: {
