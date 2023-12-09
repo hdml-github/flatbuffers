@@ -5,8 +5,8 @@
  */
 
 import { Builder } from "flatbuffers";
-import { Join, Model } from "../.fbs/query.Model_generated";
-import { FilterClause } from "../.fbs/query.FilterClause_generated";
+import { Join, Model } from "../.fbs/hdml.Model_generated";
+import { FilterClause } from "../.fbs/hdml.FilterClause_generated";
 import { FilterHelper } from "./FilterHelper";
 import { TJoin } from "../types";
 

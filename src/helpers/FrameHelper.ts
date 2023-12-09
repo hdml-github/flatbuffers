@@ -5,8 +5,8 @@
  */
 
 import { Builder } from "flatbuffers";
-import { Frame } from "../.fbs/query.Frame_generated";
-import { FilterClause } from "../.fbs/query.FilterClause_generated";
+import { Frame } from "../.fbs/hdml.Frame_generated";
+import { FilterClause } from "../.fbs/hdml.FilterClause_generated";
 import { FieldHelper } from "./FieldHelper";
 import { FilterHelper } from "./FilterHelper";
 import { TFrame } from "../types";

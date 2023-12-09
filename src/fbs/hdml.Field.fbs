@@ -10,7 +10,7 @@ include "./enum.DecBitWidthEnum.fbs";
 include "./enum.DateUnitEnum.fbs";
 include "./enum.TimeUnitEnum.fbs";
 
-namespace query;
+namespace hdml;
 
 /// Field common type options structure.
 struct CommonOpts {

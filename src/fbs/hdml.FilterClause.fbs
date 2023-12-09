@@ -8,7 +8,7 @@ include "./enum.FilterTypeEnum.fbs";
 include "./enum.FilterNameEnum.fbs";
 include "./enum.FilterOperatorEnum.fbs";
 
-namespace query;
+namespace hdml;
 
 /// Filter clause structure.
 table FilterClause {

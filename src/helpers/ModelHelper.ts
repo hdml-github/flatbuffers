@@ -5,7 +5,7 @@
  */
 
 import { Builder } from "flatbuffers";
-import { Model } from "../.fbs/query.Model_generated";
+import { Model } from "../.fbs/hdml.Model_generated";
 import { TableHelper } from "./TableHelper";
 import { JoinHelper } from "./JoinHelper";
 import { TModel } from "../types";

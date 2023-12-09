@@ -31,9 +31,9 @@ import {
   TFilterClause,
   TJoin,
   TFrame,
-  TQuery,
+  TMarkup,
 } from "./types";
-import { Query } from "./Query";
+import { Markup } from "./Markup";
 
 export {
   // enums
@@ -63,8 +63,8 @@ export {
   TFilterClause,
   TJoin,
   TFrame,
-  TQuery,
+  TMarkup,
 
   // query
-  Query,
+  Markup,
 };

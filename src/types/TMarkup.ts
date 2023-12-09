@@ -10,7 +10,7 @@ import { TFrame } from "./TFrame";
 /**
  * Query.
  */
-export type TQuery = {
+export type TMarkup = {
   model?: TModel;
   frame?: TFrame;
 };

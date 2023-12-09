@@ -6,10 +6,10 @@
 
 include "./enum.TableTypeEnum.fbs";
 include "./enum.JoinTypeEnum.fbs";
-include "./query.Field.fbs";
-include "./query.FilterClause.fbs";
+include "./hdml.Field.fbs";
+include "./hdml.FilterClause.fbs";
 
-namespace query;
+namespace hdml;
 
 /// Model structure.
 table Model {
@@ -23,7 +23,7 @@ table Table {
   name: string;
   type: enum.TableTypeEnum;
   source: string;
-  fields: [query.Field];
+  fields: [hdml.Field];
 }
 
 /// Join structure.
@@ -31,5 +31,5 @@ table Join {
   type: enum.JoinTypeEnum;
   left: string;
   right: string;
-  clause: query.FilterClause;
+  clause: hdml.FilterClause;
 }

@@ -14,7 +14,7 @@ import {
   ExprOpts,
   KeysOpts,
   NamedOpts,
-} from "../.fbs/query.FilterClause_generated";
+} from "../.fbs/hdml.FilterClause_generated";
 import { FilterTypeEnum } from "../enums";
 import {
   TExprOpts,

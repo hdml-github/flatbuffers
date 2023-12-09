@@ -9,9 +9,9 @@ import {
   TDateOpts,
   TTimeOpts,
   TTimestampOpts,
-  TQuery,
+  TMarkup,
 } from "./types";
-import { Query } from "./Query";
+import { Markup } from "./Markup";
 import {
   TableTypeEnum,
   AggTypeEnum,
@@ -25,8 +25,8 @@ import {
   FilterNameEnum,
 } from "./enums";
 
-describe("Query schema", () => {
-  const QueryObj: TQuery = {
+describe("Markup schema", () => {
+  const QueryObj: TMarkup = {
     model: {
       name: "Test Model",
       tables: [
@@ -406,12 +406,12 @@ describe("Query schema", () => {
     },
   };
 
-  let document1: Query;
-  let document2: Query;
+  let document1: Markup;
+  let document2: Markup;
 
   it("must be constructible and parsable", () => {
-    document1 = new Query(QueryObj);
-    document2 = new Query(document1.buffer);
+    document1 = new Markup(QueryObj);
+    document2 = new Markup(document1.buffer);
 
     expect(QueryObj.model?.name).toEqual(document1.model?.name);
     expect(QueryObj.model?.name).toEqual(document2.model?.name);

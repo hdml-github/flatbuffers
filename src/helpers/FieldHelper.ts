@@ -16,7 +16,7 @@ import {
   DateOpts,
   DecimalOpts,
   CommonOpts,
-} from "../.fbs/query.Field_generated";
+} from "../.fbs/hdml.Field_generated";
 import { DataTypeEnum } from "../enums";
 import {
   TCommonOpts,

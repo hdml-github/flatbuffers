@@ -1,0 +1,24 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./hdml.Field.fbs";
+include "./hdml.FilterClause.fbs";
+
+namespace hdml;
+
+/// Frame structure.
+table Frame {
+  name: string;
+  source: string;
+  offset: ulong;
+  limit: ulong;
+  fields: [hdml.Field];
+  filter_by: hdml.FilterClause;
+  group_by: [hdml.Field];
+  split_by: [hdml.Field];
+  sort_by: [hdml.Field];
+  parent: Frame;
+}

@@ -5,22 +5,22 @@
  */
 
 import { ByteBuffer, Builder } from "flatbuffers";
-import { Query as _Query } from "./.fbs/query.Query_generated";
-import { Model } from "./.fbs/query.Model_generated";
-import { Frame } from "./.fbs/query.Frame_generated";
+import { Markup as _Markup } from "./.fbs/hdml.Markup_generated";
+import { Model } from "./.fbs/hdml.Model_generated";
+import { Frame } from "./.fbs/hdml.Frame_generated";
 import { ModelHelper } from "./helpers/ModelHelper";
 import { FrameHelper } from "./helpers/FrameHelper";
-import { TModel, TFrame, TQuery } from "./types";
+import { TModel, TFrame, TMarkup } from "./types";
 
 /**
  * Query class.
  */
-export class Query {
+export class Markup {
   private _builder: Builder;
   private _buffer: ByteBuffer;
   private _model: ModelHelper;
   private _frame: FrameHelper;
-  private _query: _Query;
+  private _query: _Markup;
 
   public get buffer(): Uint8Array {
     return this._buffer.bytes();
@@ -42,13 +42,13 @@ export class Query {
     return;
   }
 
-  constructor(data: Uint8Array | TQuery) {
+  constructor(data: Uint8Array | TMarkup) {
     this._builder = new Builder(1024);
     this._model = new ModelHelper(this._builder);
     this._frame = new FrameHelper(this._builder);
     if (data instanceof Uint8Array) {
       this._buffer = new ByteBuffer(data);
-      this._query = _Query.getRootAsQuery(this._buffer);
+      this._query = _Markup.getRootAsMarkup(this._buffer);
     } else {
       let model: undefined | number;
       if (data.model) {
@@ -58,16 +58,16 @@ export class Query {
       if (data.frame) {
         frame = this._frame.bufferizeFrame(data.frame);
       }
-      _Query.startQuery(this._builder);
+      _Markup.startMarkup(this._builder);
       if (model) {
-        _Query.addModel(this._builder, model);
+        _Markup.addModel(this._builder, model);
       }
       if (frame) {
-        _Query.addFrame(this._builder, frame);
+        _Markup.addFrame(this._builder, frame);
       }
-      this._builder.finish(_Query.endQuery(this._builder));
+      this._builder.finish(_Markup.endMarkup(this._builder));
       this._buffer = new ByteBuffer(this._builder.asUint8Array());
-      this._query = _Query.getRootAsQuery(this._buffer);
+      this._query = _Markup.getRootAsMarkup(this._buffer);
     }
   }
 }
