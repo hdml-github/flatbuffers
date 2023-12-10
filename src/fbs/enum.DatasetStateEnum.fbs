@@ -6,8 +6,8 @@
 
 namespace enum;
 
-/// Query states enum.
-enum QueryStateEnum: byte {
+/// Dataset states enum.
+enum DatasetStateEnum: byte {
   PROCESSING,
   SCHEMA,
   CHUNK,

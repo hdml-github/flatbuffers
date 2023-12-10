@@ -8,9 +8,9 @@ import { TModel } from "./TModel";
 import { TFrame } from "./TFrame";
 
 /**
- * Query.
+ * HDML markup interface.
  */
-export type TMarkup = {
+export interface IMarkup {
   model?: TModel;
   frame?: TFrame;
-};
+}

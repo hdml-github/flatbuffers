@@ -10,12 +10,12 @@ import { Model } from "./.fbs/hdml.Model_generated";
 import { Frame } from "./.fbs/hdml.Frame_generated";
 import { ModelHelper } from "./helpers/ModelHelper";
 import { FrameHelper } from "./helpers/FrameHelper";
-import { TModel, TFrame, TMarkup } from "./types";
+import { TModel, TFrame, IMarkup } from "./types";
 
 /**
  * Query class.
  */
-export class Markup {
+export class Markup implements IMarkup {
   private _builder: Builder;
   private _buffer: ByteBuffer;
   private _model: ModelHelper;
@@ -42,7 +42,7 @@ export class Markup {
     return;
   }
 
-  constructor(data: Uint8Array | TMarkup) {
+  constructor(data: Uint8Array | IMarkup) {
     this._builder = new Builder(1024);
     this._model = new ModelHelper(this._builder);
     this._frame = new FrameHelper(this._builder);

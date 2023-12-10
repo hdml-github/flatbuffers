@@ -9,7 +9,7 @@ import {
   TDateOpts,
   TTimeOpts,
   TTimestampOpts,
-  TMarkup,
+  IMarkup,
 } from "./types";
 import { Markup } from "./Markup";
 import {
@@ -26,7 +26,7 @@ import {
 } from "./enums";
 
 describe("Markup schema", () => {
-  const QueryObj: TMarkup = {
+  const QueryObj: IMarkup = {
     model: {
       name: "Test Model",
       tables: [

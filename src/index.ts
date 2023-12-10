@@ -15,7 +15,7 @@ import {
   FilterNameEnum,
   FilterTypeEnum,
   FilterOperatorEnum,
-  QueryStateEnum,
+  DatasetStateEnum,
 } from "./enums";
 import {
   TCommonOpts,
@@ -31,7 +31,7 @@ import {
   TFilterClause,
   TJoin,
   TFrame,
-  TMarkup,
+  IMarkup,
 } from "./types";
 import { Markup } from "./Markup";
 
@@ -43,7 +43,7 @@ export {
   TimeUnitEnum,
   DataTypeEnum,
   DecBitWidthEnum,
-  QueryStateEnum,
+  DatasetStateEnum,
   FilterNameEnum,
   FilterTypeEnum,
   FilterOperatorEnum,
@@ -63,7 +63,7 @@ export {
   TFilterClause,
   TJoin,
   TFrame,
-  TMarkup,
+  IMarkup,
 
   // query
   Markup,
