@@ -17,6 +17,7 @@ import { FilterTypeEnum } from "./.fbs/enum.FilterTypeEnum_generated";
 import { FilterOperatorEnum } from "./.fbs/enum.FilterOperatorEnum_generated";
 import { DecBitWidthEnum } from "./.fbs/enum.DecBitWidthEnum_generated";
 import { DatasetStateEnum } from "./.fbs/enum.DatasetStateEnum_generated";
+import { ConnectorTypeEnum } from "./.fbs/enum.ConnectorTypeEnum_generated";
 export {
   TableTypeEnum,
   AggTypeEnum,
@@ -29,4 +30,5 @@ export {
   FilterTypeEnum,
   FilterOperatorEnum,
   DatasetStateEnum,
+  ConnectorTypeEnum,
 };

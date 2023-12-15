@@ -1,0 +1,148 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+include "./enum.ConnectorTypeEnum.fbs";
+
+namespace hdml;
+
+/// PostgreSQL connector configuration parameters structure.
+table PostgresConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// MySQL connector configuration parameters structure.
+table MysqlConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// MSSQL connecctor configuration parameters structure.
+table MssqlConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// MariaDB connector configuration parameters structure.
+table MariadbConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// Oracle connector configuration parameters structure.
+table OracleConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// Redshift connector configuration parameters structure.
+table RedshiftConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// ClickHouse connector configuration parameters structure.
+table ClickhouseConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// Druid connector configuration parameters structure.
+table DruidConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// Ignite connector configuration parameters structure.
+table IgniteConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+}
+
+/// BigQuery connector configuration parameters structure.
+table BigqueryConf {
+  project: string;
+  credentials: string;
+}
+
+/// Google Sheets connector configuration parameters structure.
+table GsheetsConf {
+  meta: string;
+  credentials: string;
+}
+
+/// Elasticsearch connector configuration parameters structure.
+table ElasticsearchConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+  region: string;
+  access: string;
+  secret: string;
+}
+
+/// MongoDB connector configuration parameters structure.
+table MongoConf {
+  host: string;
+  port: ushort;
+  user: string;
+  pass: string;
+  ssl: bool;
+  schema: string;
+}
+
+/// Datasource configuration parameters union.
+union DatasourceConf {
+  PostgresConf,
+  MysqlConf,
+  MssqlConf,
+  MariadbConf,
+  OracleConf,
+  RedshiftConf,
+  ClickhouseConf,
+  DruidConf,
+  IgniteConf,
+  BigqueryConf,
+  GsheetsConf,
+  ElasticsearchConf,
+  MongoConf,
+}
+
+/// Connector parameters structure.
+table Connector {
+  name: string;
+  type: enum.ConnectorTypeEnum;
+  conf: DatasourceConf;
+}

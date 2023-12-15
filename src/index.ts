@@ -16,6 +16,7 @@ import {
   FilterTypeEnum,
   FilterOperatorEnum,
   DatasetStateEnum,
+  ConnectorTypeEnum,
 } from "./enums";
 import {
   TCommonOpts,
@@ -48,23 +49,24 @@ export {
   FilterTypeEnum,
   FilterOperatorEnum,
   JoinTypeEnum,
+  ConnectorTypeEnum,
 
   // types
   TCommonOpts,
   TDecimalOpts,
   TDateOpts,
+  TTimeOpts,
+  TTimestampOpts,
   TField,
   TModel,
   TTable,
-  TTimeOpts,
-  TTimestampOpts,
   TType,
   TFilter,
   TFilterClause,
   TJoin,
   TFrame,
-  IMarkup,
 
-  // query
+  // markup
+  IMarkup,
   Markup,
 };

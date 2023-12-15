@@ -1,0 +1,24 @@
+/**
+ * @author Artem Lytvynov
+ * @copyright Artem Lytvynov
+ * @license Apache2.0
+ */
+
+namespace enum;
+
+/// Supported connector type.
+enum ConnectorTypeEnum: byte {
+  postgresql,
+  sqlserver,
+  oracle,
+  mysql,
+  mariadb,
+  redshift,
+  clickhouse,
+  druid,
+  ignite,
+  bigquery,
+  gsheets,
+  elasticsearch,
+  mongodb,
+}
